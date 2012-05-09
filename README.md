@@ -69,16 +69,13 @@ This is the service specific configuration for a discovery server.
     ness.zookeeper.initLimit=5
     ness.zookeeper.syncLimit=2
     ness.zookeeper.maxClientCnxns=100
-
+    #
     # Quartz Configuration
     org.quartz.scheduler.instanceName = DiscoveryServiceScheduler
     org.quartz.threadPool.threadCount = 5
-
+    #
     # enable cleanup job
     ness.job.zookeeper-cleanup.enabled=true
-
-
-
 
 ----
 Copyright (C) 2012 Ness Computing, Inc.
