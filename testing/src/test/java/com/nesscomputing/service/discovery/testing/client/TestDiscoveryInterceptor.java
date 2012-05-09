@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.nesscomputing.service.discovery.client.internal;
+package com.nesscomputing.service.discovery.testing.client;
 
 import java.io.IOException;
 import java.net.URI;
@@ -21,7 +21,6 @@ import java.util.Map;
 import java.util.Set;
 
 import junit.framework.Assert;
-
 
 import org.junit.Before;
 import org.junit.Test;
@@ -44,7 +43,6 @@ import com.nesscomputing.service.discovery.client.DiscoveryClient;
 import com.nesscomputing.service.discovery.client.DiscoveryClientConfig;
 import com.nesscomputing.service.discovery.client.DiscoveryServiceInterceptor;
 import com.nesscomputing.service.discovery.client.ServiceInformation;
-import com.nesscomputing.service.discovery.client.testing.MockedDiscoveryModule;
 
 /**
  * @author christopher

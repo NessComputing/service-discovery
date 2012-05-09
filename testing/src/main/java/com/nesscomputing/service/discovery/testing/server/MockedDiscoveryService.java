@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.nesscomputing.service.discovery.testing;
+package com.nesscomputing.service.discovery.testing.server;
 
 import java.util.Map;
 
@@ -24,7 +24,7 @@ import com.google.inject.util.Modules;
 import com.nesscomputing.service.discovery.client.DiscoveryClient;
 import com.nesscomputing.service.discovery.client.DiscoveryClientModule;
 import com.nesscomputing.service.discovery.client.ReadOnlyDiscoveryClient;
-import com.nesscomputing.service.discovery.client.testing.MemoryDiscoveryClient;
+import com.nesscomputing.service.discovery.testing.client.MemoryDiscoveryClient;
 import com.nesscomputing.testing.MockedService;
 
 public class MockedDiscoveryService implements MockedService {
