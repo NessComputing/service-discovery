@@ -8,9 +8,9 @@
   </parent>
 
   <scm>
-    <connection>scm:git:git://github.com/NessComputing/components-ness-jersey.git</connection>
-    <developerConnection>scm:git:git@github.com:NessComputing/components-ness-jersey.git</developerConnection>
-    <url>http://github.com/NessComputing/components-ness-jersey</url>
+    <connection>scm:git:git://github.com/NessComputing/service-discovery.git</connection>
+    <developerConnection>scm:git:git@github.com:NessComputing/service-discovery.git</developerConnection>
+    <url>http://github.com/NessComputing/service-discovery</url>
   </scm>
 
   <groupId>com.nesscomputing.service.discovery</groupId>
@@ -120,7 +120,7 @@
       <dependency>
         <groupId>com.nesscomputing.components</groupId>
         <artifactId>ness-jersey</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
       </dependency>
 
       <dependency>
@@ -138,7 +138,7 @@
       <dependency>
         <groupId>com.nesscomputing.components</groupId>
         <artifactId>ness-integration-testing</artifactId>
-        <version>1.0.0</version>
+        <version>2.0.0</version>
       </dependency>
 
       <dependency>
