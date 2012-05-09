@@ -64,18 +64,18 @@ service specific (discovery service) configuration
 
 This is the service specific configuration for a discovery server. 
 
-ness.zookeeper.dataDir=/home/henning/galaxy/deploy/persist/#{env.agent_group}/#{env.agent_id}/discovery
-ness.zookeeper.tickTime=15000
-ness.zookeeper.initLimit=5
-ness.zookeeper.syncLimit=2
-ness.zookeeper.maxClientCnxns=100
+    ness.zookeeper.dataDir=/home/henning/galaxy/deploy/persist/#{env.agent_group}/#{env.agent_id}/discovery
+    ness.zookeeper.tickTime=15000
+    ness.zookeeper.initLimit=5
+    ness.zookeeper.syncLimit=2
+    ness.zookeeper.maxClientCnxns=100
 
-# Quartz Configuration
-org.quartz.scheduler.instanceName = DiscoveryServiceScheduler
-org.quartz.threadPool.threadCount = 5
+    # Quartz Configuration
+    org.quartz.scheduler.instanceName = DiscoveryServiceScheduler
+    org.quartz.threadPool.threadCount = 5
 
-# enable cleanup job
-ness.job.zookeeper-cleanup.enabled=true
+    # enable cleanup job
+    ness.job.zookeeper-cleanup.enabled=true
 
 
 
