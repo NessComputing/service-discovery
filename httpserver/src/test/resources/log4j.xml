@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<!--
+  This is the default logging setup for test cases.
+
+  If more/less logging is required, enable disable it on a per component base.
+-->
+
+<log4j:configuration
+    xmlns:log4j="http://jakarta.apache.org/log4j/"
+    threshold="trace">
+
+    <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+        <param name="immediateFlush" value="true"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <!-- the following line contains tabs. They are used for grepp'ing through the output, --> 
+            <!-- so *DON'T* replace them with spaces! -->
+            <param name="ConversionPattern" value="%p	&lt;%X{track}&gt;	%d{ISO8601}	%t	%c	%m%n" />
+        </layout>
+    </appender>
+
+    <logger name="com.nesscomputing">
+        <level value="debug" />
+    </logger>
+
+    <root>
+        <level value="info"/>
+        <appender-ref ref="CONSOLE" />
+    </root>
+</log4j:configuration>

@@ -1,0 +1,82 @@
+#!/usr/bin/env ruby
+
+#
+# Gets called at configuration time to create
+# the node specific myid file.
+#
+
+require 'rubygems'
+
+require 'fileutils'
+require 'logger'
+require 'yaml'
+
+require 'galaxy/scripts'
+
+@log = Logger.new(STDOUT)
+
+@scripts = Galaxy::ScriptSupport.new(ARGV) do |opts|
+  opts.on("--config-path PATH") { |path| @config_path = path }
+end
+
+Dir.chdir @scripts.base
+
+information=@scripts.get_slot_variables
+
+#
+# Creates the node specific myid file
+#
+properties = {}
+repository =   Galaxy::Repository.new information["env.config_location"], @log
+sources = repository.walk(@scripts.config_path, "config.properties")
+
+sources.each do |source_file|
+  source_file.each_line do |line|
+    @log.debug("Pondering over #{line}")
+    line.strip!
+    if (line[0] != ?# and line[0] != ?=)
+      index = line.index('=')
+      if (index)
+        properties[line[0..index - 1].strip] = line[index + 1..-1].strip
+      else
+        properties[line] = ''
+      end
+    end
+  end
+end
+
+def check_persistent_folder properties, key
+  if properties.has_key? key
+    folder = properties[key]
+    if !File.exists? folder
+      FileUtils.mkdir_p folder
+      @log.debug("Created folder #{folder} (Key: #{key}).")
+    else
+      @log.debug("Folder #{folder} for #{key} exists, not touching it.")
+    end
+  end
+end
+
+check_persistent_folder properties, 'ness.zookeeper.dataDir'
+check_persistent_folder properties, 'ness.zookeeper.dataLogDir'
+
+properties.each do |key, value|
+  @log.debug("#{key} -> #{value}")
+  # check the zookeeper properties for the node id.
+  if key =~ /zookeeper\.server\.(\d+)$/
+    index = Regexp.last_match(1)
+    values = value.split(':')
+    if (values.size == 3)  && (values[0] == information['internal.ip']) && (values[1] == information['private.port.0'].to_s) && (values[2] == information['private.port.1'].to_s)
+      @log.debug("Found a matching zookeeper key: #{key}")
+      data_dir = properties['ness.zookeeper.dataDir']
+
+      myid = File.join(data_dir, "myid")
+      File.open myid, "w" do |file|
+        file.puts index.to_s
+      end
+      @log.debug("Wrote #{index} into #{myid}, feeling very smug.")
+      break
+    end
+  end
+end
+
