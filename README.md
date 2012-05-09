@@ -18,19 +18,19 @@ environment configuration for development
 
 For development, a single discovery server can be used. 
 
-ness.zookeeper.clientPort=21052
-ness.zookeeper.clientPortAddress=127.0.0.1
-#
-ness.zookeeper.server.1=127.0.0.1:21050:21051
-#
-# Discovery Service
-#
-ness.discovery.enabled=true
-ness.discovery.root=/ness/srvc/development
-ness.discovery.scan-interval=120s
-ness.discovery.tick-interval=100ms
-ness.discovery.zookeeper-timeout=500ms
-ness.discovery.penalty-time=600s
+    ness.zookeeper.clientPort=21052
+    ness.zookeeper.clientPortAddress=127.0.0.1
+    #
+    ness.zookeeper.server.1=127.0.0.1:21050:21051
+    #
+    # Discovery Service
+    #
+    ness.discovery.enabled=true
+    ness.discovery.root=/ness/srvc/development
+    ness.discovery.scan-interval=120s
+    ness.discovery.tick-interval=100ms
+    ness.discovery.zookeeper-timeout=500ms
+    ness.discovery.penalty-time=600s
 
 
 environment configuration for production
@@ -38,25 +38,25 @@ environment configuration for production
 
 For a real environment, at least three servers should be present.
 
-# ########################################################################
-#
-# Discovery configuration. Do not modify.
-#
-ness.zookeeper.clientPort=18700
-#
-ness.zookeeper.server.1=10.1.1.1:28990:28991
-ness.zookeeper.server.2=10.2.2.2:28990:28991
-ness.zookeeper.server.3=10.3.3.3:28990:28991
-#
-# Discovery Service
-#
-ness.discovery.enabled=true
-ness.discovery.root=/ness/srvc/production
-ness.discovery.scan-interval=120s
-ness.discovery.tick-interval=100ms
-ness.discovery.zookeeper-timeout=500ms
-ness.discovery.penalty-time=600s
-ness.discovery.http-port=8090
+    # ########################################################################
+    #
+    # Discovery configuration. Do not modify.
+    #
+    ness.zookeeper.clientPort=18700
+    #
+    ness.zookeeper.server.1=10.1.1.1:28990:28991
+    ness.zookeeper.server.2=10.2.2.2:28990:28991
+    ness.zookeeper.server.3=10.3.3.3:28990:28991
+    #
+    # Discovery Service
+    #
+    ness.discovery.enabled=true
+    ness.discovery.root=/ness/srvc/production
+    ness.discovery.scan-interval=120s
+    ness.discovery.tick-interval=100ms
+    ness.discovery.zookeeper-timeout=500ms
+    ness.discovery.penalty-time=600s
+    ness.discovery.http-port=8090
 
 
 service specific (discovery service) configuration
