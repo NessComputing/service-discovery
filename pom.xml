@@ -24,7 +24,6 @@
     <module>server</module>
     <module>client</module>
     <module>httpserver</module>
-    <module>test</module>
   </modules>
 
   <properties>
