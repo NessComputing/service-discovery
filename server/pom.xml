@@ -14,7 +14,7 @@
 
   <properties>
     <galaxy.packaging>standalone</galaxy.packaging>
-    <galaxy.mainclass>com.nesscomputing.discovery.server.DiscoveryServerMain</galaxy.mainclass>
+    <galaxy.mainclass>com.nesscomputing.service.discovery.server.DiscoveryServerMain</galaxy.mainclass>
     <ness.root.dir>${project.parent.basedir}</ness.root.dir>
   </properties>
 
