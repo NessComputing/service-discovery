@@ -24,13 +24,13 @@
     </dependency>
 
     <dependency>
-      <groupId>com.nesscomputing.components</groupId>
-      <artifactId>ness-logging</artifactId>
+      <groupId>com.nesscomputing.service.discovery</groupId>
+      <artifactId>discovery-testing</artifactId>
     </dependency>
 
     <dependency>
       <groupId>com.nesscomputing.components</groupId>
-      <artifactId>ness-lifecycle</artifactId>
+      <artifactId>ness-logging</artifactId>
     </dependency>
 
     <dependency>
@@ -40,17 +40,60 @@
 
     <dependency>
       <groupId>com.nesscomputing.components</groupId>
-      <artifactId>ness-httpclient</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.nesscomputing.components</groupId>
       <artifactId>ness-jms</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.apache.zookeeper</groupId>
-      <artifactId>zookeeper</artifactId>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.activemq</groupId>
+      <artifactId>activemq-core</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.springframework</groupId>
+          <artifactId>spring-context</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.activemq</groupId>
+          <artifactId>activeio-core</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.activemq</groupId>
+          <artifactId>kahadb</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.jasypt</groupId>
+          <artifactId>jasypt</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.activemq.protobuf</groupId>
+          <artifactId>activemq-protobuf</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>commons-net</groupId>
+          <artifactId>commons-net</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.osgi</groupId>
+          <artifactId>org.osgi.core</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-jms_1.1_spec</artifactId>
     </dependency>
 
     <dependency>
@@ -64,16 +107,6 @@
     </dependency>
 
     <dependency>
-      <groupId>commons-collections</groupId>
-      <artifactId>commons-collections</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>commons-configuration</groupId>
-      <artifactId>commons-configuration</artifactId>
-    </dependency>
-
-    <dependency>
       <groupId>com.google.inject</groupId>
       <artifactId>guice</artifactId>
     </dependency>
@@ -84,8 +117,8 @@
     </dependency>
 
     <dependency>
-      <groupId>com.google.code.findbugs</groupId>
-      <artifactId>jsr305</artifactId>
+      <groupId>cglib</groupId>
+      <artifactId>cglib-nodep</artifactId>
     </dependency>
     
     <dependency>
