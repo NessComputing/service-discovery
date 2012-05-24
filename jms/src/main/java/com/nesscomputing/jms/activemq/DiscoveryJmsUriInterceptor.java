@@ -43,7 +43,7 @@ class DiscoveryJmsUriInterceptor implements JmsUriInterceptor {
         this.jmsAnnotation = jmsAnnotation;
     }
 
-    @Inject(optional=true)
+    @Inject
     void injectDiscoveryClient(Injector injector, ReadOnlyDiscoveryClient discoveryClient) {
         config = injector.getInstance(Key.get(DiscoveryJmsConfig.class, jmsAnnotation));
 
@@ -66,7 +66,7 @@ class DiscoveryJmsUriInterceptor implements JmsUriInterceptor {
     @Override
     public String apply(String input) {
 
-        if (config == null || !config.isSrvcTransportEnabled())
+        if (!config.isSrvcTransportEnabled())
         {
             return input;
         }
