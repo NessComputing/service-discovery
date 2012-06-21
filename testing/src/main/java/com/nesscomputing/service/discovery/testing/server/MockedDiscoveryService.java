@@ -21,23 +21,24 @@ import com.google.common.collect.ImmutableMap;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.util.Modules;
+import com.nesscomputing.config.Config;
 import com.nesscomputing.service.discovery.client.DiscoveryClient;
 import com.nesscomputing.service.discovery.client.DiscoveryClientModule;
 import com.nesscomputing.service.discovery.client.ReadOnlyDiscoveryClient;
 import com.nesscomputing.service.discovery.testing.client.MemoryDiscoveryClient;
-import com.nesscomputing.testing.MockedService;
+import com.nesscomputing.testing.tweaked.TweakedModule;
 
-public class MockedDiscoveryService implements MockedService {
+public class MockedDiscoveryService extends TweakedModule {
 
     private final DiscoveryClient mockedClient = new MemoryDiscoveryClient();
 
     @Override
-    public Module getServiceModule(String serviceName) {
-        return Modules.combine(getTestCaseModule(), new HttpServerAnnouncerModule());
+    public Module getServiceModule(final Config config) {
+        return Modules.combine(getTestCaseModule(config), new HttpServerAnnouncerModule());
     }
 
     @Override
-    public Module getTestCaseModule() {
+    public Module getTestCaseModule(final Config config) {
 
         return Modules.override(new DiscoveryClientModule()).with(new AbstractModule() {
             @Override
@@ -49,7 +50,7 @@ public class MockedDiscoveryService implements MockedService {
     }
 
     @Override
-    public Map<String, String> getServiceConfigTweaks(final String serviceName) {
+    public Map<String, String> getServiceConfigTweaks() {
         return getTestCaseConfigTweaks();
     }
 
