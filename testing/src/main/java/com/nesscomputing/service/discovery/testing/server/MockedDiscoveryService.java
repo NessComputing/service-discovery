@@ -49,12 +49,15 @@ public class MockedDiscoveryService implements MockedService {
     }
 
     @Override
-    public Map<String, String> getServiceConfigTweaks(String serviceName) {
+    public Map<String, String> getServiceConfigTweaks(final String serviceName) {
         return getTestCaseConfigTweaks();
     }
 
     @Override
     public Map<String, String> getTestCaseConfigTweaks() {
-        return ImmutableMap.of("ness.discovery.enabled", "true");
+        return ImmutableMap.of("ness.discovery.enabled", "true",
+                               "ness.zookeeper.clientPort", "0",
+                               "ness.zookeeper.clientPortAddress", "127.0.0.1"
+                               );
     }
 }
