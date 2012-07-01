@@ -57,7 +57,7 @@ public class MockedDiscoveryService implements MockedService {
     public Map<String, String> getTestCaseConfigTweaks() {
         return ImmutableMap.of("ness.discovery.enabled", "true",
                                "ness.zookeeper.clientPort", "0",
-                               "ness.zookeeper.clientPortAddress", "127.0.0.1"
+                               "ness.zookeeper.clientPortAddress", "127.0.0.1" // NOPMD - pmd complains about the bare IP address here, but it is correct.
                                );
     }
 }
