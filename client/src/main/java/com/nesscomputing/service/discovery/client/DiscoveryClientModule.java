@@ -83,9 +83,8 @@ public class DiscoveryClientModule extends AbstractModule
             bind(ReadOnlyDiscoveryClient.class).to(ReadOnlyDiscoveryClientImpl.class).in(Scopes.SINGLETON);
         }
         else {
-            bind(DiscoveryClientImpl.class).in(Scopes.SINGLETON);
-            bind(ReadOnlyDiscoveryClient.class).to(DiscoveryClientImpl.class).in(Scopes.SINGLETON);
             bind(DiscoveryClient.class).to(DiscoveryClientImpl.class).in(Scopes.SINGLETON);
+            bind(ReadOnlyDiscoveryClient.class).to(DiscoveryClient.class).in(Scopes.SINGLETON);
             bind(ServiceAnnouncer.class).asEagerSingleton();
         }
 
