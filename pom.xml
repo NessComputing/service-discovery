@@ -15,7 +15,7 @@
 
   <groupId>com.nesscomputing.service.discovery</groupId>
   <artifactId>discovery-parent</artifactId>
-  <version>1.1.0</version>
+  <version>1.1.1-SNAPSHOT</version>
   <name>service-discovery-parent</name>
   <description>Service location and discovery.</description>
   <packaging>pom</packaging>
