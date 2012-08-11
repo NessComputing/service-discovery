@@ -21,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import com.nesscomputing.httpserver.HttpConnector;
 import com.nesscomputing.httpserver.HttpServer;
 import com.nesscomputing.service.discovery.client.ServiceInformation;
 import com.nesscomputing.service.discovery.client.ServiceInformationBuilder;
@@ -35,8 +36,10 @@ public class ServiceAnnouncementFactory {
     }
 
     public ServiceInformationBuilder newBuilder() {
-        String internalAddress = httpServer.getInternalAddress();
-        int internalPort = httpServer.getInternalHttpPort();
+        final HttpConnector connector = httpServer.getConnectors().get("internal-http");
+        Preconditions.checkState(connector != null, "not internal http connector found!");
+        String internalAddress = connector.getAddress();
+        int internalPort = connector.getPort();
 
         Preconditions.checkState(!StringUtils.isBlank(internalAddress), "blank internal address");
         Preconditions.checkState(internalPort > 0, "unconfigured internal http port");

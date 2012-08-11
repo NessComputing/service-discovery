@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.nesscomputing</groupId>
     <artifactId>ness-oss-parent</artifactId>
-    <version>13</version>
+    <version>17</version>
   </parent>
 
   <scm>
@@ -28,7 +28,7 @@
   </modules>
 
   <properties>
-    <dep.jackson.version>1.9.7</dep.jackson.version>
+    <dep.jackson.version>1.9.9</dep.jackson.version>
   </properties>
 
   <dependencyManagement>
@@ -77,8 +77,14 @@
 
       <dependency>
         <groupId>com.nesscomputing.components</groupId>
+        <artifactId>ness-server</artifactId>
+        <version>1.0.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.nesscomputing.components</groupId>
         <artifactId>ness-httpserver</artifactId>
-        <version>2.0.2</version>
+        <version>2.1.1</version>
       </dependency>
 
       <dependency>
@@ -90,7 +96,7 @@
       <dependency>
         <groupId>com.nesscomputing.components</groupId>
         <artifactId>ness-jmx</artifactId>
-        <version>1.0.0</version>
+        <version>1.1.0</version>
       </dependency>
 
       <dependency>
@@ -102,7 +108,7 @@
       <dependency>
         <groupId>com.nesscomputing.components</groupId>
         <artifactId>ness-galaxy</artifactId>
-        <version>1.0.0</version>
+        <version>1.1.0</version>
       </dependency>
 
       <dependency>
@@ -120,7 +126,7 @@
       <dependency>
         <groupId>com.nesscomputing.components</groupId>
         <artifactId>ness-jersey</artifactId>
-        <version>1.1.0</version>
+        <version>1.1.1</version>
       </dependency>
 
       <dependency>
@@ -139,6 +145,12 @@
         <groupId>com.nesscomputing.components</groupId>
         <artifactId>ness-integration-testing</artifactId>
         <version>3.0.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.nesscomputing</groupId>
+        <artifactId>ness-syslog4j</artifactId>
+        <version>0.9.47-NESS-4</version>
       </dependency>
 
       <dependency>
@@ -168,7 +180,7 @@
       <dependency>
         <groupId>com.sun.jersey</groupId>
         <artifactId>jersey-core</artifactId>
-        <version>1.12</version>
+        <version>1.13</version>
       </dependency>
 
       <dependency>
