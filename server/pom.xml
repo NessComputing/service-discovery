@@ -42,6 +42,11 @@
 
     <dependency>
       <groupId>com.nesscomputing.components</groupId>
+      <artifactId>ness-server</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.nesscomputing.components</groupId>
       <artifactId>ness-httpserver</artifactId>
     </dependency>
 
