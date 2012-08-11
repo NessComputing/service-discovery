@@ -29,8 +29,7 @@ import org.junit.Test;
 import com.google.common.base.Throwables;
 import com.google.common.io.Files;
 import com.nesscomputing.config.Config;
-import com.nesscomputing.httpserver.standalone.StandaloneServer;
-import com.nesscomputing.service.discovery.server.DiscoveryServerMain;
+import com.nesscomputing.server.StandaloneServer;
 import com.nesscomputing.testing.lessio.AllowLocalFileAccess;
 import com.nesscomputing.testing.lessio.AllowNetworkAccess;
 import com.nesscomputing.testing.lessio.AllowNetworkListen;
@@ -52,6 +51,7 @@ public class TestDiscoveryServerMain
                 System.setProperty("galaxy.internal.port.http", Integer.toString(findUnusedPort()));
                 System.setProperty("ness.zookeeper.dataDir", tmpDir.getAbsolutePath());
                 System.setProperty("ness.zookeeper.clientPort", Integer.toString(findUnusedPort()));
+                System.setProperty("ness.jmx.enabled", "false");
 
                 int port1 = findUnusedPort();
                 int port2 = findUnusedPort();

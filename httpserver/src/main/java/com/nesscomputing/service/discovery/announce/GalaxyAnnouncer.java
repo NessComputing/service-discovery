@@ -17,14 +17,13 @@ package com.nesscomputing.service.discovery.announce;
 
 import java.util.Set;
 
-
 import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import com.nesscomputing.galaxy.GalaxyConfig;
 import com.nesscomputing.galaxy.GalaxyIp;
-import com.nesscomputing.httpserver.HttpServerConfig;
+import com.nesscomputing.httpserver.GalaxyHttpServerConfig;
 import com.nesscomputing.logging.Log;
 import com.nesscomputing.service.discovery.client.DiscoveryClient;
 import com.nesscomputing.service.discovery.client.ServiceAnnouncer;
@@ -41,7 +40,7 @@ public class GalaxyAnnouncer extends ServiceAnnouncer
     @Inject
     GalaxyAnnouncer(final DiscoveryClient discoveryClient,
                     final AnnouncementConfig announcementConfig,
-                    final HttpServerConfig httpServerConfig,
+                    final GalaxyHttpServerConfig httpServerConfig,
                     final GalaxyConfig galaxyConfig)
     {
         super(discoveryClient);
@@ -49,7 +48,7 @@ public class GalaxyAnnouncer extends ServiceAnnouncer
     }
 
     public static final Set<ServiceInformation> buildServices(final AnnouncementConfig announcementConfig,
-                                                              final HttpServerConfig httpServerConfig,
+                                                              final GalaxyHttpServerConfig httpServerConfig,
                                                               final GalaxyConfig galaxyConfig)
     {
         final Set<ServiceInformation> services = Sets.newHashSet();
@@ -77,7 +76,7 @@ public class GalaxyAnnouncer extends ServiceAnnouncer
 
     public static final Set<ServiceInformation> buildInternalServices(final String serviceName,
                                                                       final String serviceType,
-                                                                      final HttpServerConfig httpServerConfig,
+                                                                      final GalaxyHttpServerConfig httpServerConfig,
                                                                       final GalaxyConfig galaxyConfig)
     {
         final Set<ServiceInformation> services = Sets.newHashSet();
@@ -95,7 +94,7 @@ public class GalaxyAnnouncer extends ServiceAnnouncer
 
     public static final Set<ServiceInformation> buildExternalServices(final String serviceName,
                                                                       final String serviceType,
-                                                                      final HttpServerConfig httpServerConfig,
+                                                                      final GalaxyHttpServerConfig httpServerConfig,
                                                                       final GalaxyConfig galaxyConfig)
     {
         final Set<ServiceInformation> services = Sets.newHashSet();

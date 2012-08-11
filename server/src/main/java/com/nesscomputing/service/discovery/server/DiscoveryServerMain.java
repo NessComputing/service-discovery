@@ -20,7 +20,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-
 import org.joda.time.Duration;
 
 import com.google.inject.AbstractModule;
@@ -31,14 +30,13 @@ import com.nesscomputing.config.Config;
 import com.nesscomputing.config.ConfigProvider;
 import com.nesscomputing.galaxy.GalaxyConfigModule;
 import com.nesscomputing.httpserver.HttpServerModule;
-import com.nesscomputing.httpserver.standalone.StandaloneServer;
 import com.nesscomputing.jackson.NessJacksonModule;
 import com.nesscomputing.jersey.NessJerseyServletModule;
 import com.nesscomputing.jmx.jolokia.JolokiaModule;
-import com.nesscomputing.jmx.starter.guice.JmxStarterModule;
 import com.nesscomputing.logging.Log;
 import com.nesscomputing.quartz.NessQuartzModule;
 import com.nesscomputing.quartz.QuartzJobBinder;
+import com.nesscomputing.server.StandaloneServer;
 import com.nesscomputing.service.discovery.client.DiscoveryClientModule;
 import com.nesscomputing.service.discovery.job.ZookeeperJob;
 import com.nesscomputing.service.discovery.job.ZookeeperJobProcessor;
@@ -75,7 +73,6 @@ public class DiscoveryServerMain extends StandaloneServer
             public void configure()
             {
                 install(new GalaxyConfigModule());
-                install(new JmxStarterModule(config));
                 install(new HttpServerModule(config));
                 install(new JolokiaModule());
                 install(new ZookeeperModule(config));

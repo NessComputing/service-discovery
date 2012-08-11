@@ -16,9 +16,11 @@
 package com.nesscomputing.service.discovery.testing.server;
 
 
+import com.google.common.base.Preconditions;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import com.nesscomputing.httpserver.HttpConnector;
 import com.nesscomputing.httpserver.HttpServer;
 import com.nesscomputing.lifecycle.LifecycleStage;
 import com.nesscomputing.lifecycle.guice.OnStage;
@@ -50,7 +52,10 @@ class HttpServerAnnouncerModule extends AbstractModule {
 
         @OnStage(LifecycleStage.ANNOUNCE)
         public void announce() {
-            serviceInfo = ServiceInformation.forService(serviceName, null, "http", "localhost", httpServer.getInternalHttpPort());
+            final HttpConnector connector = httpServer.getConnectors().get("internal-http");
+            Preconditions.checkState(connector != null, "could not find internal http connector!");
+
+            serviceInfo = ServiceInformation.forService(serviceName, null, "http", "localhost", connector.getPort());
             discoveryClient.announce(serviceInfo);
         }
 
