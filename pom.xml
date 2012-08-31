@@ -91,8 +91,32 @@
 
       <dependency>
         <groupId>com.nesscomputing.components</groupId>
-        <artifactId>ness-jmx</artifactId>
+        <artifactId>ness-httpserver</artifactId>
+        <version>2.2.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.nesscomputing.components</groupId>
+        <artifactId>ness-jackson</artifactId>
         <version>1.1.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.nesscomputing.components</groupId>
+        <artifactId>ness-tracking</artifactId>
+        <version>1.0.2</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.nesscomputing.components</groupId>
+        <artifactId>ness-galaxy</artifactId>
+        <version>1.1.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.nesscomputing.components</groupId>
+        <artifactId>ness-jmx</artifactId>
+        <version>1.1.1</version>
       </dependency>
 
       <dependency>
