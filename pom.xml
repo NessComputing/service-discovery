@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.nesscomputing</groupId>
     <artifactId>ness-oss-parent</artifactId>
-    <version>17</version>
+    <version>18</version>
   </parent>
 
   <scm>
@@ -30,6 +30,7 @@
 
   <properties>
     <dep.jackson.version>1.9.9</dep.jackson.version>
+    <dep.ness.server.version>2.0.0</dep.ness.server.version>
   </properties>
 
   <dependencyManagement>
@@ -79,19 +80,13 @@
       <dependency>
         <groupId>com.nesscomputing.components</groupId>
         <artifactId>ness-server</artifactId>
-        <version>1.0.0</version>
+        <version>${dep.ness.server.version}</version>
       </dependency>
 
       <dependency>
         <groupId>com.nesscomputing.components</groupId>
-        <artifactId>ness-httpserver</artifactId>
-        <version>2.1.1</version>
-      </dependency>
-
-      <dependency>
-        <groupId>com.nesscomputing.components</groupId>
-        <artifactId>ness-scopes</artifactId>
-        <version>1.0.0</version>
+        <artifactId>ness-server-templates</artifactId>
+        <version>${dep.ness.server.version}</version>
       </dependency>
 
       <dependency>
@@ -108,32 +103,14 @@
 
       <dependency>
         <groupId>com.nesscomputing.components</groupId>
-        <artifactId>ness-galaxy</artifactId>
-        <version>1.1.0</version>
-      </dependency>
-
-      <dependency>
-        <groupId>com.nesscomputing.components</groupId>
-        <artifactId>ness-tracking</artifactId>
-        <version>1.0.2</version>
+        <artifactId>ness-scopes</artifactId>
+        <version>1.0.0</version>
       </dependency>
 
       <dependency>
         <groupId>com.nesscomputing.components</groupId>
         <artifactId>ness-httpclient</artifactId>
-        <version>1.0.1</version>
-      </dependency>
-
-      <dependency>
-        <groupId>com.nesscomputing.components</groupId>
-        <artifactId>ness-jersey</artifactId>
-        <version>1.1.1</version>
-      </dependency>
-
-      <dependency>
-        <groupId>com.nesscomputing.components</groupId>
-        <artifactId>ness-jackson</artifactId>
-        <version>1.0.3</version>
+        <version>1.1.0</version>
       </dependency>
 
       <dependency>
@@ -145,7 +122,7 @@
       <dependency>
         <groupId>com.nesscomputing.components</groupId>
         <artifactId>ness-integration-testing</artifactId>
-        <version>3.0.0</version>
+        <version>3.1.0</version>
       </dependency>
 
       <dependency>
@@ -199,7 +176,7 @@
       <dependency>
         <groupId>org.quartz-scheduler</groupId>
         <artifactId>quartz</artifactId>
-        <version>2.1.5</version>
+        <version>2.1.6</version>
       </dependency>
 
     </dependencies>
