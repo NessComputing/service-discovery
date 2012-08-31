@@ -37,17 +37,12 @@
 
     <dependency>
       <groupId>com.nesscomputing.components</groupId>
-      <artifactId>ness-galaxy</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.nesscomputing.components</groupId>
       <artifactId>ness-server</artifactId>
     </dependency>
 
     <dependency>
       <groupId>com.nesscomputing.components</groupId>
-      <artifactId>ness-httpserver</artifactId>
+      <artifactId>ness-server-templates</artifactId>
     </dependency>
 
     <dependency>
@@ -58,16 +53,6 @@
     <dependency>
       <groupId>com.nesscomputing.components</groupId>
       <artifactId>ness-config</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.nesscomputing.components</groupId>
-      <artifactId>ness-jersey</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.nesscomputing.components</groupId>
-      <artifactId>ness-jackson</artifactId>
     </dependency>
 
     <dependency>
