@@ -20,23 +20,21 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import org.joda.time.Duration;
-
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
+
+import org.joda.time.Duration;
+
 import com.nesscomputing.config.Config;
 import com.nesscomputing.config.ConfigProvider;
-import com.nesscomputing.galaxy.GalaxyConfigModule;
-import com.nesscomputing.httpserver.HttpServerModule;
-import com.nesscomputing.jackson.NessJacksonModule;
-import com.nesscomputing.jersey.NessJerseyServletModule;
 import com.nesscomputing.jmx.jolokia.JolokiaModule;
 import com.nesscomputing.logging.Log;
 import com.nesscomputing.quartz.NessQuartzModule;
 import com.nesscomputing.quartz.QuartzJobBinder;
 import com.nesscomputing.server.StandaloneServer;
+import com.nesscomputing.server.templates.BasicGalaxyServerModule;
 import com.nesscomputing.service.discovery.client.DiscoveryClientModule;
 import com.nesscomputing.service.discovery.job.ZookeeperJob;
 import com.nesscomputing.service.discovery.job.ZookeeperJobProcessor;
@@ -72,19 +70,20 @@ public class DiscoveryServerMain extends StandaloneServer
             @Override
             public void configure()
             {
-                install(new GalaxyConfigModule());
-                install(new HttpServerModule(config));
+                install(new BasicGalaxyServerModule(config));
+
                 install(new JolokiaModule());
                 install(new ZookeeperModule(config));
                 // Install a read only module for the client.
                 install(new DiscoveryClientModule(true));
-                install(new NessJacksonModule());
-                install(new NessJerseyServletModule(config));
                 install(new NessQuartzModule(config));
 
                 bind(ZookeeperCleanupJob.class);
                 QuartzJobBinder.bindQuartzJob(binder(), ZookeeperCleanupJob.class)
-                    .conditional("zookeeper-cleanup").delay(Duration.standardMinutes(1)).repeat(Duration.standardHours(8)).register();
+                               .conditional("zookeeper-cleanup")
+                               .delay(Duration.standardMinutes(1))
+                               .repeat(Duration.standardHours(8))
+                               .register();
 
                 bind(DiscoveryServerConfig.class).toProvider(ConfigProvider.of(DiscoveryServerConfig.class)).in(Scopes.SINGLETON);
                 bind(ZookeeperJobProcessor.class).in(Scopes.SINGLETON);
@@ -92,8 +91,13 @@ public class DiscoveryServerMain extends StandaloneServer
                 bind(StateOfTheWorldResource.class);
                 bind(ServiceLookupResource.class);
             }
-
         };
+    }
+
+    @Override
+    public String getServerType()
+    {
+        return "discovery";
     }
 
     @Override
