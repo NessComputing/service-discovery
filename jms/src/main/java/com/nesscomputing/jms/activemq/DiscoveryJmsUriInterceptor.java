@@ -19,10 +19,14 @@ import java.lang.annotation.Annotation;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.google.inject.Singleton;
+
+import org.apache.commons.lang3.StringUtils;
+
 import com.nesscomputing.jms.JmsUriInterceptor;
 import com.nesscomputing.logging.Log;
 import com.nesscomputing.service.discovery.client.ReadOnlyDiscoveryClient;
@@ -36,7 +40,7 @@ class DiscoveryJmsUriInterceptor implements JmsUriInterceptor {
     private static final Log LOG = Log.findLog();
     private final UUID injectorId = UUID.randomUUID();
     private final Annotation jmsAnnotation;
-    private DiscoveryJmsConfig config;
+    private volatile DiscoveryJmsConfig config;
 
     DiscoveryJmsUriInterceptor(Annotation jmsAnnotation)
     {
@@ -56,7 +60,7 @@ class DiscoveryJmsUriInterceptor implements JmsUriInterceptor {
         // Ensure that we don't register a discovery client until it's had at least one world-change (or give up due to timeout)
         try {
             discoveryClient.waitForWorldChange(config.getDiscoveryTimeout().getMillis(), TimeUnit.MILLISECONDS);
-        } catch (InterruptedException e) {
+        } catch (final InterruptedException e) {
             Thread.currentThread().interrupt();
         }
 
@@ -64,9 +68,11 @@ class DiscoveryJmsUriInterceptor implements JmsUriInterceptor {
     }
 
     @Override
-    public String apply(String input) {
+    public String apply(String input)
+    {
+        Preconditions.checkState(config != null, "no config for %s", injectorId);
 
-        if (!config.isSrvcTransportEnabled())
+        if (!config.isSrvcTransportEnabled() || StringUtils.isEmpty(input))
         {
             return input;
         }
