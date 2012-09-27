@@ -8,8 +8,8 @@
     <version>1.4.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>discovery-httpserver</artifactId>
-  <name>service-discovery-httpserver</name>
+  <artifactId>discovery-jms</artifactId>
+  <name>service-discovery-jms</name>
   <packaging>jar</packaging>
 
   <properties>
@@ -17,9 +17,15 @@
   </properties>
 
   <dependencies>
+
     <dependency>
       <groupId>com.nesscomputing.service.discovery</groupId>
       <artifactId>discovery-client</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.nesscomputing.service.discovery</groupId>
+      <artifactId>discovery-testing</artifactId>
     </dependency>
 
     <dependency>
@@ -29,47 +35,27 @@
 
     <dependency>
       <groupId>com.nesscomputing.components</groupId>
-      <artifactId>ness-lifecycle</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.nesscomputing.components</groupId>
-      <artifactId>ness-server</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.nesscomputing.components</groupId>
-      <artifactId>ness-httpserver</artifactId>
-    </dependency>
-    
-    <dependency>
-      <groupId>com.nesscomputing.components</groupId>
-      <artifactId>ness-jmx</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.nesscomputing.components</groupId>
-      <artifactId>ness-tracking</artifactId>
-    </dependency>
-    
-    <dependency>
-      <groupId>com.nesscomputing.components</groupId>
-      <artifactId>ness-scopes</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>com.nesscomputing.components</groupId>
       <artifactId>ness-config</artifactId>
     </dependency>
 
     <dependency>
       <groupId>com.nesscomputing.components</groupId>
-      <artifactId>ness-galaxy</artifactId>
+      <artifactId>ness-jms</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>com.nesscomputing.components</groupId>
-      <artifactId>ness-jackson</artifactId>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.activemq</groupId>
+      <artifactId>activemq-core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-jms_1.1_spec</artifactId>
     </dependency>
 
     <dependency>
@@ -88,8 +74,18 @@
     </dependency>
 
     <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
+      <groupId>com.google.inject.extensions</groupId>
+      <artifactId>guice-multibindings</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>cglib</groupId>
+      <artifactId>cglib-nodep</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.nesscomputing.testing</groupId>
+      <artifactId>findbugs-annotations</artifactId>
     </dependency>
 
     <dependency>
