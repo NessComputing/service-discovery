@@ -68,6 +68,8 @@ public class ServiceDiscoveryTransportFactoryTest {
         Guice.createInjector(new AbstractModule() {
             @Override
             protected void configure() {
+                binder().requireExplicitBindings();
+                binder().disableCircularProxies();
 
                 install (new ConfigModule(config));
                 install (new DiscoveryJmsModule(config, "test"));
@@ -79,7 +81,7 @@ public class ServiceDiscoveryTransportFactoryTest {
 
         final ConnectionFactory directFactory = new ActiveMQConnectionFactory("vm://disco-test-broker-" + uniqueId + "?broker.persistent=false");
 
-        Connection directConnection = directFactory.createConnection();
+        final Connection directConnection = directFactory.createConnection();
         directConnection.start();
         try {
             sendTestMessage(directConnection);
@@ -91,12 +93,12 @@ public class ServiceDiscoveryTransportFactoryTest {
     }
 
     private void consumeTestMessage() throws Exception {
-        Connection connection = factory.createConnection();
+        final Connection connection = factory.createConnection();
         connection.start();
         try {
-            Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            MessageConsumer consumer = session.createConsumer(session.createQueue(QNAME));
-            Message message = consumer.receive(1000);
+            final Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+            final MessageConsumer consumer = session.createConsumer(session.createQueue(QNAME));
+            final Message message = consumer.receive(1000);
 
             LOG.info(ObjectUtils.toString(message, "<no message>"));
 
@@ -109,8 +111,8 @@ public class ServiceDiscoveryTransportFactoryTest {
 
     private void sendTestMessage(final Connection directConnection)
     throws Exception {
-        Session session = directConnection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-        MessageProducer producer = session.createProducer(session.createQueue(QNAME));
+        final Session session = directConnection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+        final MessageProducer producer = session.createProducer(session.createQueue(QNAME));
         producer.send(session.createTextMessage(uniqueId));
         session.close();
     }

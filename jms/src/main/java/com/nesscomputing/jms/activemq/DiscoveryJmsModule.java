@@ -34,10 +34,10 @@ public class DiscoveryJmsModule extends AbstractModule
     @Override
     protected void configure()
     {
-        Annotation bindingAnnotation = Names.named(jmsConnectionBindingName);
+        final Annotation bindingAnnotation = Names.named(jmsConnectionBindingName);
 
-        Multibinder.newSetBinder(binder(), JmsUriInterceptor.class, bindingAnnotation).addBinding().toInstance(
-                new DiscoveryJmsUriInterceptor(bindingAnnotation));
+        Multibinder.newSetBinder(binder(), JmsUriInterceptor.class, bindingAnnotation).addBinding().toProvider(
+                new DiscoveryJmsUriInterceptorProvider(bindingAnnotation));
         bind (DiscoveryJmsConfig.class).annotatedWith(bindingAnnotation)
             .toProvider(ConfigProvider.of(null, DiscoveryJmsConfig.class, Collections.singletonMap("name", jmsConnectionBindingName)));
 

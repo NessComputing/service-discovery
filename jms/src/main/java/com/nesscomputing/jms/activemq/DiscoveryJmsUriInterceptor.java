@@ -15,56 +15,24 @@
  */
 package com.nesscomputing.jms.activemq;
 
-import java.lang.annotation.Annotation;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-
 import com.google.common.base.Preconditions;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.Key;
-import com.google.inject.Singleton;
-
 import org.apache.commons.lang3.StringUtils;
 
 import com.nesscomputing.jms.JmsUriInterceptor;
-import com.nesscomputing.logging.Log;
-import com.nesscomputing.service.discovery.client.ReadOnlyDiscoveryClient;
 
 /**
  * Replace the single format specifier in a srvc:// URI with the unique ID specifying which
  * injector it belongs to.
  */
-@Singleton
 class DiscoveryJmsUriInterceptor implements JmsUriInterceptor {
-    private static final Log LOG = Log.findLog();
-    private final UUID injectorId = UUID.randomUUID();
-    private final Annotation jmsAnnotation;
-    private volatile DiscoveryJmsConfig config;
+    private final UUID injectorId;
+    private final DiscoveryJmsConfig config;
 
-    DiscoveryJmsUriInterceptor(Annotation jmsAnnotation)
+    DiscoveryJmsUriInterceptor(DiscoveryJmsConfig config, UUID injectorId)
     {
-        this.jmsAnnotation = jmsAnnotation;
-    }
-
-    @Inject
-    void injectDiscoveryClient(Injector injector, ReadOnlyDiscoveryClient discoveryClient) {
-        config = injector.getInstance(Key.get(DiscoveryJmsConfig.class, jmsAnnotation));
-
-        if (!config.isSrvcTransportEnabled())
-        {
-            return;
-        }
-
-        LOG.debug("Waiting for world change then registering discovery client " + injectorId);
-        // Ensure that we don't register a discovery client until it's had at least one world-change (or give up due to timeout)
-        try {
-            discoveryClient.waitForWorldChange(config.getDiscoveryTimeout().getMillis(), TimeUnit.MILLISECONDS);
-        } catch (final InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-
-        ServiceDiscoveryTransportFactory.registerDiscoveryClient(injectorId, discoveryClient, config);
+        this.config = config;
+        this.injectorId = injectorId;
     }
 
     @Override
