@@ -38,6 +38,7 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.nesscomputing.config.Config;
 import com.nesscomputing.config.ConfigModule;
+import com.nesscomputing.jms.JmsModule;
 import com.nesscomputing.logging.Log;
 import com.nesscomputing.service.discovery.client.ReadOnlyDiscoveryClient;
 import com.nesscomputing.service.discovery.client.ServiceInformation;
@@ -68,7 +69,8 @@ public class ServiceDiscoveryTransportFactoryTest {
                 binder().disableCircularProxies();
 
                 install (new ConfigModule(config));
-                install (new DiscoveryJmsModule(config, "test"));
+                install (new JmsModule(config, "test"));
+                install (new DiscoveryJmsModule(config));
 
                 bind (ReadOnlyDiscoveryClient.class).toInstance(
                     MockedReadOnlyDiscoveryClient.builder().addServiceInformation(vmbrokerInfo).build());

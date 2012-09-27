@@ -95,7 +95,7 @@ public class ServiceDiscoveryTransportFactory extends TransportFactory {
         final Map<String, String> params;
         try {
             params = URISupport.parseParameters(location);
-        } catch (URISyntaxException e) {
+        } catch (final URISyntaxException e) {
             throw new MalformedURLException(e.getMessage());
         }
         return params;
@@ -105,7 +105,7 @@ public class ServiceDiscoveryTransportFactory extends TransportFactory {
      * Find and validate the discoveryId given in a connection string
      */
     private UUID getDiscoveryId(final Map<String, String> params) throws IOException {
-        String discoveryId = params.get("discoveryId");
+        final String discoveryId = params.get("discoveryId");
 
         if (discoveryId == null) {
             throw new IOException("srvc transport did not get a discoveryId parameter.  Refusing to create.");
@@ -117,9 +117,9 @@ public class ServiceDiscoveryTransportFactory extends TransportFactory {
      * Locate the appropriate DiscoveryClient for a given discoveryId
      */
     private ReadOnlyDiscoveryClient getDiscoveryClient(Map<String, String> params) throws IOException {
-        UUID discoveryId = getDiscoveryId(params);
+        final UUID discoveryId = getDiscoveryId(params);
 
-        ReadOnlyDiscoveryClient discoveryClient = DISCO_CLIENTS.get(discoveryId);
+        final ReadOnlyDiscoveryClient discoveryClient = DISCO_CLIENTS.get(discoveryId);
 
         if (discoveryClient == null) {
             throw new IOException("No discovery client registered for id " + discoveryId);
@@ -136,9 +136,9 @@ public class ServiceDiscoveryTransportFactory extends TransportFactory {
      */
     private List<ServiceInformation> getServiceInformations(URI location, final Map<String, String> params)
             throws IOException {
-        ReadOnlyDiscoveryClient discoveryClient = getDiscoveryClient(params);
+        final ReadOnlyDiscoveryClient discoveryClient = getDiscoveryClient(params);
 
-        String serviceType = params.get("serviceType");
+        final String serviceType = params.get("serviceType");
 
         final List<ServiceInformation> services;
 
@@ -154,8 +154,8 @@ public class ServiceDiscoveryTransportFactory extends TransportFactory {
      * From a list of ServiceInformation, build a failover transport that balances between the brokers.
      */
     private Transport buildTransport(Map<String, String> params, final List<ServiceInformation> services) throws IOException {
-        String configPostfix = getConfig(params).getServiceConfigurationPostfix();
-        StringBuilder uriBuilder = new StringBuilder();
+        final String configPostfix = getConfig(params).getServiceConfigurationPostfix();
+        final StringBuilder uriBuilder = new StringBuilder();
         uriBuilder.append("failover:(");
         uriBuilder.append(Joiner.on(',').join(Collections2.transform(services, SERVICE_TO_URI)));
         uriBuilder.append(")");
@@ -164,10 +164,10 @@ public class ServiceDiscoveryTransportFactory extends TransportFactory {
             uriBuilder.append(configPostfix);
         }
         try {
-            URI uri = URI.create(uriBuilder.toString());
+            final URI uri = URI.create(uriBuilder.toString());
             LOG.debug("Service discovery transport discovered %s", uri);
             return interceptPropertySetters(TransportFactory.compositeConnect(uri));
-        } catch (Exception e) {
+        } catch (final Exception e) {
             Throwables.propagateIfPossible(e, IOException.class);
             throw new IOException("Could not create failover transport", e);
         }
@@ -180,9 +180,9 @@ public class ServiceDiscoveryTransportFactory extends TransportFactory {
      * intercepts and ignores appropriate setter calls.
      */
     private Transport interceptPropertySetters(Transport transport) {
-        Enhancer e = new Enhancer();
+        final Enhancer e = new Enhancer();
         e.setInterfaces(new Class<?>[] {Transport.class, ServiceTransportBeanSetters.class});
-        TransportDelegationFilter filter = new TransportDelegationFilter(transport, ServiceTransportBeanSetters.class);
+        final TransportDelegationFilter filter = new TransportDelegationFilter(transport, ServiceTransportBeanSetters.class);
         e.setCallbackFilter(filter);
         e.setCallbacks(filter.getCallbacks());
         return (Transport) e.create();
@@ -192,7 +192,7 @@ public class ServiceDiscoveryTransportFactory extends TransportFactory {
         @Override
         @edu.umd.cs.findbugs.annotations.SuppressWarnings("NP_PARAMETER_MUST_BE_NONNULL_BUT_MARKED_AS_NULLABLE")
         public String apply(ServiceInformation input) {
-            String uri = input.getProperty("uri");
+            final String uri = input.getProperty("uri");
             Preconditions.checkArgument(!StringUtils.isBlank(uri), "service did not advertise a connect uri");
             return uri;
         }

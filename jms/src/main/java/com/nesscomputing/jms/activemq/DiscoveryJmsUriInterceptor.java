@@ -16,31 +16,51 @@
 package com.nesscomputing.jms.activemq;
 
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
 import com.google.common.base.Preconditions;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.nesscomputing.jms.JmsUriInterceptor;
+import com.nesscomputing.logging.Log;
+import com.nesscomputing.service.discovery.client.ReadOnlyDiscoveryClient;
 
 /**
  * Replace the single format specifier in a srvc:// URI with the unique ID specifying which
  * injector it belongs to.
  */
+@Singleton
 class DiscoveryJmsUriInterceptor implements JmsUriInterceptor {
-    private final UUID injectorId;
+    private static final Log LOG = Log.findLog();
+    private final UUID injectorId = UUID.randomUUID();
     private final DiscoveryJmsConfig config;
 
-    DiscoveryJmsUriInterceptor(DiscoveryJmsConfig config, UUID injectorId)
+    @Inject
+    DiscoveryJmsUriInterceptor(ReadOnlyDiscoveryClient discoveryClient, DiscoveryJmsConfig config)
     {
         this.config = config;
-        this.injectorId = injectorId;
+
+        LOG.debug("Waiting for world change then registering discovery client %s", injectorId);
+        // Ensure that we don't register a discovery client until it's had at least one world-change (or give up due to timeout)
+        try {
+            discoveryClient.waitForWorldChange(config.getDiscoveryTimeout().getMillis(), TimeUnit.MILLISECONDS);
+        } catch (final InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        ServiceDiscoveryTransportFactory.registerDiscoveryClient(injectorId, discoveryClient, config);
     }
 
     @Override
-    public String apply(String input)
+    public String transform(String connectionName, String input)
     {
         Preconditions.checkState(config != null, "no config for %s", injectorId);
+        Preconditions.checkState(config.isSrvcTransportEnabled(), "srvc not enabled, the module should not have bound this interceptor");
 
-        if (!config.isSrvcTransportEnabled() || StringUtils.isEmpty(input))
+        if (!config.isSrvcTransportEnabled() || StringUtils.isEmpty(input) || !input.startsWith("srvc://"))
         {
             return input;
         }

@@ -1,52 +1,64 @@
 package com.nesscomputing.jms.activemq;
 
-import java.lang.annotation.Annotation;
-import java.util.Collections;
-
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
 import com.google.inject.multibindings.Multibinder;
-import com.google.inject.name.Names;
 import com.nesscomputing.config.Config;
 import com.nesscomputing.config.ConfigProvider;
-import com.nesscomputing.jms.JmsModule;
 import com.nesscomputing.jms.JmsUriInterceptor;
 
 /**
- * Service discovery enabled variant of {@link JmsModule}.
+ * Enables service discovery transport for JMS
  *
- * This module will install a <code>JmsModule</code> for you, and
- * enables that module to use connections that have a <code>srvc:</code> URI
- * scheme.
- *
- *  @see ServiceDiscoveryTransportFactory Configuration specifics
+ * @see ServiceDiscoveryTransportFactory Configuration specifics
  */
 public class DiscoveryJmsModule extends AbstractModule
 {
-    private final String jmsConnectionBindingName;
     private final Config config;
 
-    public DiscoveryJmsModule(Config config, String jmsConnectionBindingName)
+    public DiscoveryJmsModule(Config config)
     {
         this.config = config;
-        this.jmsConnectionBindingName = jmsConnectionBindingName;
     }
 
     @Override
     protected void configure()
     {
-        final Annotation bindingAnnotation = Names.named(jmsConnectionBindingName);
-
         if (config.getBean(DiscoveryJmsConfig.class).isSrvcTransportEnabled()) {
-            Multibinder.newSetBinder(binder(), JmsUriInterceptor.class, bindingAnnotation).addBinding().toProvider(
-                    new DiscoveryJmsUriInterceptorProvider(bindingAnnotation))
+            Multibinder.newSetBinder(binder(), JmsUriInterceptor.class).addBinding().to(
+                    DiscoveryJmsUriInterceptor.class)
                     .in(Scopes.SINGLETON);
 
-            bind (DiscoveryJmsConfig.class).annotatedWith(bindingAnnotation).toProvider(
-                    ConfigProvider.of(null, DiscoveryJmsConfig.class, Collections.singletonMap("name", jmsConnectionBindingName)))
+            bind (DiscoveryJmsConfig.class).toProvider(
+                    ConfigProvider.of(null, DiscoveryJmsConfig.class))
                     .in(Scopes.SINGLETON);
         }
+    }
 
-        install (new JmsModule(config, jmsConnectionBindingName));
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((config == null) ? 0 : config.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final DiscoveryJmsModule other = (DiscoveryJmsModule) obj;
+        if (config == null) {
+            if (other.config != null)
+                return false;
+        } else if (!config.equals(other.config))
+            return false;
+        return true;
     }
 }
