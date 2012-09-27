@@ -43,12 +43,8 @@ import com.nesscomputing.service.discovery.client.ReadOnlyDiscoveryClient;
 import com.nesscomputing.service.discovery.client.ServiceInformation;
 import com.nesscomputing.service.discovery.testing.client.MockedReadOnlyDiscoveryClient;
 import com.nesscomputing.testing.lessio.AllowDNSResolution;
-import com.nesscomputing.testing.lessio.AllowNetworkAccess;
-import com.nesscomputing.testing.lessio.AllowNetworkListen;
 
 @AllowDNSResolution
-@AllowNetworkListen(ports={1099,0})
-@AllowNetworkAccess(endpoints={"localhost:1099"})
 public class ServiceDiscoveryTransportFactoryTest {
     private static final String QNAME = "disco-test-queue";
     private static final Log LOG = Log.findLog();

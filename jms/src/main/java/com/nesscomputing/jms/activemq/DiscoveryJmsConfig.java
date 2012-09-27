@@ -32,7 +32,7 @@ abstract class DiscoveryJmsConfig
     }
 
     /**
-     * The amount of time JMS will wait for discovery to synchronize to the central directory
+     * The amount of time JMS will wait for discovery to synchronize
      */
     @Config("ness.jms.srvc.discovery-timeout")
     @Default("2s")

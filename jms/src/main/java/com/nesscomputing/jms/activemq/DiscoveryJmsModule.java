@@ -4,6 +4,7 @@ import java.lang.annotation.Annotation;
 import java.util.Collections;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Scopes;
 import com.google.inject.multibindings.Multibinder;
 import com.google.inject.name.Names;
 import com.nesscomputing.config.Config;
@@ -12,7 +13,7 @@ import com.nesscomputing.jms.JmsModule;
 import com.nesscomputing.jms.JmsUriInterceptor;
 
 /**
- * Service discovery enabled varaint of {@link JmsModule}.
+ * Service discovery enabled variant of {@link JmsModule}.
  *
  * This module will install a <code>JmsModule</code> for you, and
  * enables that module to use connections that have a <code>srvc:</code> URI
@@ -36,10 +37,15 @@ public class DiscoveryJmsModule extends AbstractModule
     {
         final Annotation bindingAnnotation = Names.named(jmsConnectionBindingName);
 
-        Multibinder.newSetBinder(binder(), JmsUriInterceptor.class, bindingAnnotation).addBinding().toProvider(
-                new DiscoveryJmsUriInterceptorProvider(bindingAnnotation));
-        bind (DiscoveryJmsConfig.class).annotatedWith(bindingAnnotation)
-            .toProvider(ConfigProvider.of(null, DiscoveryJmsConfig.class, Collections.singletonMap("name", jmsConnectionBindingName)));
+        if (config.getBean(DiscoveryJmsConfig.class).isSrvcTransportEnabled()) {
+            Multibinder.newSetBinder(binder(), JmsUriInterceptor.class, bindingAnnotation).addBinding().toProvider(
+                    new DiscoveryJmsUriInterceptorProvider(bindingAnnotation))
+                    .in(Scopes.SINGLETON);
+
+            bind (DiscoveryJmsConfig.class).annotatedWith(bindingAnnotation).toProvider(
+                    ConfigProvider.of(null, DiscoveryJmsConfig.class, Collections.singletonMap("name", jmsConnectionBindingName)))
+                    .in(Scopes.SINGLETON);
+        }
 
         install (new JmsModule(config, jmsConnectionBindingName));
     }

@@ -19,6 +19,7 @@ import java.lang.annotation.Annotation;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -49,10 +50,7 @@ class DiscoveryJmsUriInterceptorProvider implements Provider<JmsUriInterceptor> 
     void injectDiscoveryClient(Injector injector, ReadOnlyDiscoveryClient discoveryClient) {
         config = injector.getInstance(Key.get(DiscoveryJmsConfig.class, jmsAnnotation));
 
-        if (!config.isSrvcTransportEnabled())
-        {
-            return;
-        }
+        Preconditions.checkState(config.isSrvcTransportEnabled(), "srvc not enabled, the module should not have bound this provider");
 
         LOG.debug("Waiting for world change then registering discovery client %s, config %s", injectorId, config);
         // Ensure that we don't register a discovery client until it's had at least one world-change (or give up due to timeout)

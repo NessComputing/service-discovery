@@ -184,6 +184,44 @@
         <groupId>org.apache.activemq</groupId>
         <artifactId>activemq-core</artifactId>
         <version>5.5.1</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging-api</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activeio-core</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>kahadb</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.jasypt</groupId>
+            <artifactId>jasypt</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.apache.activemq.protobuf</groupId>
+            <artifactId>activemq-protobuf</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
 
       <dependency>
