@@ -74,9 +74,14 @@ public class ServiceInformation
 
     public static ServiceInformation staticAnnouncement(final String serviceName, final String serviceType, final String serviceScheme, final String serviceAddress, final int port)
     {
+        return staticAnnouncement(UUID.randomUUID(), serviceName, serviceType, serviceScheme, serviceAddress, port);
+    }
+
+    public static ServiceInformation staticAnnouncement(final UUID serviceId, final String serviceName, final String serviceType, final String serviceScheme, final String serviceAddress, final int port)
+    {
         return new ServiceInformation(serviceName,
                 serviceType,
-                null,
+                serviceId,
                 ImmutableMap.of(PROP_SERVICE_SCHEME, serviceScheme,
                                 PROP_SERVICE_ADDRESS, serviceAddress,
                                 PROP_SERVICE_PORT, Integer.toString(port)),

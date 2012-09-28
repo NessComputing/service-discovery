@@ -30,6 +30,7 @@ import org.joda.time.Duration;
 import com.nesscomputing.config.Config;
 import com.nesscomputing.config.ConfigProvider;
 import com.nesscomputing.jmx.jolokia.JolokiaModule;
+import com.nesscomputing.lifecycle.LifecycleStage;
 import com.nesscomputing.lifecycle.ServiceDiscoveryLifecycle;
 import com.nesscomputing.lifecycle.guice.LifecycleModule;
 import com.nesscomputing.logging.Log;
@@ -40,6 +41,7 @@ import com.nesscomputing.server.templates.BasicGalaxyServerModule;
 import com.nesscomputing.service.discovery.client.DiscoveryClientModule;
 import com.nesscomputing.service.discovery.job.ZookeeperJob;
 import com.nesscomputing.service.discovery.job.ZookeeperJobProcessor;
+import com.nesscomputing.service.discovery.server.announce.ConfigStaticAnnouncer;
 import com.nesscomputing.service.discovery.server.job.BuildPathJob;
 import com.nesscomputing.service.discovery.server.resources.ServiceLookupResource;
 import com.nesscomputing.service.discovery.server.resources.StateOfTheWorldResource;
@@ -93,6 +95,8 @@ public class DiscoveryServerMain extends StandaloneServer
                 bind(StateOfTheWorldResource.class);
                 bind(ServiceLookupResource.class);
                 bind(StaticAnnouncementResource.class);
+
+                bind(ConfigStaticAnnouncer.class).asEagerSingleton();
             }
         };
     }
@@ -101,6 +105,12 @@ public class DiscoveryServerMain extends StandaloneServer
     protected Module getLifecycleModule()
     {
         return new LifecycleModule(ServiceDiscoveryLifecycle.class);
+    }
+
+    @Override
+    protected LifecycleStage getStartStage()
+    {
+        return LifecycleStage.ANNOUNCE_STAGE;
     }
 
     @Override
