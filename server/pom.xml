@@ -47,6 +47,11 @@
 
     <dependency>
       <groupId>com.nesscomputing.components</groupId>
+      <artifactId>ness-httpclient</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.nesscomputing.components</groupId>
       <artifactId>ness-jmx</artifactId>
     </dependency>
 
@@ -81,6 +86,19 @@
     </dependency>
 
     <dependency>
+      <groupId>com.nesscomputing.components</groupId>
+      <artifactId>ness-jackson</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-core-asl</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
     </dependency>
@@ -103,6 +121,17 @@
     <dependency>
       <groupId>org.quartz-scheduler</groupId>
       <artifactId>quartz</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>jsr305</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <scope>runtime</scope>
     </dependency>
 
     <dependency>

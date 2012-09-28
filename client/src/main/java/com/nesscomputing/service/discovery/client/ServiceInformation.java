@@ -21,10 +21,12 @@ import java.util.UUID;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
@@ -55,6 +57,7 @@ public class ServiceInformation
     private final String serviceType;
     private final UUID serviceId;
     private final String announcementName;
+    private final boolean staticAnnouncement;
 
     @JsonProperty(value="properties")
     private final Map<String, String> grabBag = Maps.newHashMap();
@@ -69,16 +72,38 @@ public class ServiceInformation
                                                       PROP_SERVICE_PORT, Integer.toString(port)));
     }
 
-    public ServiceInformation(@Nonnull  @JsonProperty("serviceName") final String serviceName,
-                              @Nullable @JsonProperty("serviceType") final String serviceType,
-                              @JsonProperty("serviceId") final UUID serviceId,
-                              @JsonProperty("properties") final Map<String, String> grabBag)
+    public static ServiceInformation staticAnnouncement(final String serviceName, final String serviceType, final String serviceScheme, final String serviceAddress, final int port)
+    {
+        return new ServiceInformation(serviceName,
+                serviceType,
+                null,
+                ImmutableMap.of(PROP_SERVICE_SCHEME, serviceScheme,
+                                PROP_SERVICE_ADDRESS, serviceAddress,
+                                PROP_SERVICE_PORT, Integer.toString(port)),
+                true);
+    }
+
+    public ServiceInformation(final String serviceName,
+                              final String serviceType,
+                              final UUID serviceId,
+                              final Map<String, String> grabBag)
+    {
+        this(serviceName, serviceType, serviceId, grabBag, false);
+    }
+
+    @JsonCreator
+    ServiceInformation(@Nonnull  @JsonProperty("serviceName") final String serviceName,
+            @Nullable @JsonProperty("serviceType") final String serviceType,
+            @JsonProperty("serviceId") final UUID serviceId,
+            @JsonProperty("properties") final Map<String, String> grabBag,
+            @JsonProperty("staticAnnouncement") final Boolean staticAnnouncement)
     {
         Preconditions.checkNotNull(serviceName, "Service name can not be null!");
 
         this.serviceName = serviceName;
         this.serviceType = serviceType;
         this.serviceId = serviceId == null ? UUID.randomUUID(): serviceId;
+        this.staticAnnouncement = BooleanUtils.isTrue(staticAnnouncement);
 
         if (grabBag != null) {
             this.grabBag.putAll(grabBag);
@@ -119,17 +144,24 @@ public class ServiceInformation
         return announcementName;
     }
 
+    @JsonProperty
+    public boolean isStaticAnnouncement()
+    {
+        return staticAnnouncement;
+    }
+
     @Override
     public boolean equals(final Object other)
     {
         if (!(other instanceof ServiceInformation))
             return false;
-        ServiceInformation castOther = (ServiceInformation) other;
+        final ServiceInformation castOther = (ServiceInformation) other;
         return new EqualsBuilder().append(serviceName, castOther.serviceName)
             .append(serviceType, castOther.serviceType)
             .append(serviceId, castOther.serviceId)
             .append(announcementName, castOther.announcementName)
             .append(grabBag, castOther.grabBag)
+            .append(staticAnnouncement, castOther.staticAnnouncement)
             .isEquals();
     }
 
@@ -139,7 +171,7 @@ public class ServiceInformation
     public int hashCode()
     {
         if (hashCode == 0) {
-            hashCode = new HashCodeBuilder().append(serviceName).append(serviceType).append(serviceId).append(announcementName).append(grabBag).toHashCode();
+            hashCode = new HashCodeBuilder().append(serviceName).append(serviceType).append(serviceId).append(announcementName).append(grabBag).append(staticAnnouncement).toHashCode();
         }
         return hashCode;
     }
@@ -150,12 +182,8 @@ public class ServiceInformation
     public String toString()
     {
         if (toString == null) {
-            toString = new ToStringBuilder(this).append("serviceName", serviceName).append("serviceType", serviceType).append("serviceId", serviceId).append("announcementName", announcementName).append("grabBag", grabBag).toString();
+            toString = new ToStringBuilder(this).append("serviceName", serviceName).append("serviceType", serviceType).append("serviceId", serviceId).append("announcementName", announcementName).append("grabBag", grabBag).append("staticAnnouncement", staticAnnouncement).toString();
         }
         return toString;
     }
-
-
 }
-
-
