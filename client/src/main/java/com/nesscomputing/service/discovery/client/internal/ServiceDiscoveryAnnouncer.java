@@ -51,6 +51,8 @@ class ServiceDiscoveryAnnouncer extends ServiceDiscoveryTask
     /** Map of the local announcements to the last generation in which it was present. */
     private final Map<String, Long> localAnnouncementGenerations = Maps.newHashMap();
 
+    private final Set<ServiceInformation> staticAnnouncementsToRemove = new CopyOnWriteArraySet<ServiceInformation>();
+
     // Generation counter for the announcements. By setting the start value to 1, this
     // ensures an immediate run through the announcer.
     private volatile long lastAnnouncementGeneration = 0L;
@@ -77,6 +79,10 @@ class ServiceDiscoveryAnnouncer extends ServiceDiscoveryTask
     {
         localAnnouncements.remove(serviceInformation);
         announcementGeneration.incrementAndGet();
+
+        if (serviceInformation.isStaticAnnouncement()) {
+            staticAnnouncementsToRemove.add(serviceInformation);
+        }
     }
 
     @Override
@@ -108,10 +114,10 @@ class ServiceDiscoveryAnnouncer extends ServiceDiscoveryTask
 
                 try {
                     final byte [] serialized = objectMapper.writeValueAsBytes(si);
-                    zookeeper.create(childPath, serialized, Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
-                    LOG.debug("Created announcement for %s", si.getAnnouncementName());
+                    zookeeper.create(childPath, serialized, Ids.OPEN_ACL_UNSAFE, si.isStaticAnnouncement() ? CreateMode.PERSISTENT : CreateMode.EPHEMERAL);
+                    LOG.debug("Created %sannouncement for %s", si.isStaticAnnouncement() ? "static " : "", si.getAnnouncementName());
                 }
-                catch (IOException ioe) {
+                catch (final IOException ioe) {
                     LOG.warn(ioe, "While generating announcement:");
                 }
             }
@@ -135,7 +141,7 @@ class ServiceDiscoveryAnnouncer extends ServiceDiscoveryTask
                     LOG.debug("Removed announcement for %s", entry.getKey());
                     it.remove();
                 }
-                catch (KeeperException ke) {
+                catch (final KeeperException ke) {
                     // The node disappeared under us. That should not happen, but
                     // test for it anyway.
                     if (ke.code() == Code.NONODE) {
@@ -145,6 +151,32 @@ class ServiceDiscoveryAnnouncer extends ServiceDiscoveryTask
                     else {
                         throw ke;
                     }
+                }
+            }
+        }
+
+        // Now remove static announcements which have been unannounced
+        for (final ServiceInformation si : staticAnnouncementsToRemove)
+        {
+            final String announcementName = si.getAnnouncementName();
+
+            LOG.info("Removing static announcement %s", announcementName);
+            final String childPath = getNodePath(announcementName);
+
+            try {
+                zookeeper.delete(childPath, -1);
+                LOG.debug("Removed announcement for %s", announcementName);
+                staticAnnouncementsToRemove.remove(si);
+            }
+            catch (final KeeperException ke) {
+                // The node disappeared under us. That should not happen, but
+                // test for it anyway.
+                if (ke.code() == Code.NONODE) {
+                    LOG.trace("Node was already removed, ignoring");
+                    staticAnnouncementsToRemove.remove(si);
+                }
+                else {
+                    throw ke;
                 }
             }
         }

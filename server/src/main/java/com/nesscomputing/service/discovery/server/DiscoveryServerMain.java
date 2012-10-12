@@ -30,6 +30,9 @@ import org.joda.time.Duration;
 import com.nesscomputing.config.Config;
 import com.nesscomputing.config.ConfigProvider;
 import com.nesscomputing.jmx.jolokia.JolokiaModule;
+import com.nesscomputing.lifecycle.LifecycleStage;
+import com.nesscomputing.lifecycle.ServiceDiscoveryLifecycle;
+import com.nesscomputing.lifecycle.guice.LifecycleModule;
 import com.nesscomputing.logging.Log;
 import com.nesscomputing.quartz.NessQuartzModule;
 import com.nesscomputing.quartz.QuartzJobBinder;
@@ -38,9 +41,11 @@ import com.nesscomputing.server.templates.BasicGalaxyServerModule;
 import com.nesscomputing.service.discovery.client.DiscoveryClientModule;
 import com.nesscomputing.service.discovery.job.ZookeeperJob;
 import com.nesscomputing.service.discovery.job.ZookeeperJobProcessor;
+import com.nesscomputing.service.discovery.server.announce.ConfigStaticAnnouncer;
 import com.nesscomputing.service.discovery.server.job.BuildPathJob;
 import com.nesscomputing.service.discovery.server.resources.ServiceLookupResource;
 import com.nesscomputing.service.discovery.server.resources.StateOfTheWorldResource;
+import com.nesscomputing.service.discovery.server.resources.StaticAnnouncementResource;
 import com.nesscomputing.service.discovery.server.zookeeper.ZookeeperCleanupJob;
 import com.nesscomputing.service.discovery.server.zookeeper.ZookeeperModule;
 
@@ -74,8 +79,7 @@ public class DiscoveryServerMain extends StandaloneServer
 
                 install(new JolokiaModule());
                 install(new ZookeeperModule(config));
-                // Install a read only module for the client.
-                install(new DiscoveryClientModule(true));
+                install(new DiscoveryClientModule(false));
                 install(new NessQuartzModule(config));
 
                 bind(ZookeeperCleanupJob.class);
@@ -90,8 +94,23 @@ public class DiscoveryServerMain extends StandaloneServer
 
                 bind(StateOfTheWorldResource.class);
                 bind(ServiceLookupResource.class);
+                bind(StaticAnnouncementResource.class);
+
+                bind(ConfigStaticAnnouncer.class).asEagerSingleton();
             }
         };
+    }
+
+    @Override
+    protected Module getLifecycleModule()
+    {
+        return new LifecycleModule(ServiceDiscoveryLifecycle.class);
+    }
+
+    @Override
+    protected LifecycleStage getStartStage()
+    {
+        return LifecycleStage.ANNOUNCE_STAGE;
     }
 
     @Override
@@ -114,14 +133,14 @@ public class DiscoveryServerMain extends StandaloneServer
             try {
                 jobFuture.get(1, TimeUnit.MINUTES);
             }
-            catch (TimeoutException te) {
+            catch (final TimeoutException te) {
                 LOG.error(te, "Root node creation did not finish in time!");
             }
-            catch (ExecutionException ee) {
+            catch (final ExecutionException ee) {
                 LOG.error(ee, "Root node creation failed!");
             }
         }
-        catch (InterruptedException ie) {
+        catch (final InterruptedException ie) {
             Thread.currentThread().interrupt();
         }
     }
