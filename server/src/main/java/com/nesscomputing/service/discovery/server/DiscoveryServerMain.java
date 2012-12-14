@@ -29,7 +29,6 @@ import org.joda.time.Duration;
 
 import com.nesscomputing.config.Config;
 import com.nesscomputing.config.ConfigProvider;
-import com.nesscomputing.jmx.jolokia.JolokiaModule;
 import com.nesscomputing.lifecycle.LifecycleStage;
 import com.nesscomputing.lifecycle.ServiceDiscoveryLifecycle;
 import com.nesscomputing.lifecycle.guice.LifecycleModule;
@@ -77,7 +76,6 @@ public class DiscoveryServerMain extends StandaloneServer
             {
                 install(new BasicGalaxyServerModule(config));
 
-                install(new JolokiaModule());
                 install(new ZookeeperModule(config));
                 install(new DiscoveryClientModule(false));
                 install(new NessQuartzModule(config));

@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.nesscomputing</groupId>
     <artifactId>ness-oss-parent</artifactId>
-    <version>20</version>
+    <version>22</version>
   </parent>
 
   <scm>
@@ -31,7 +31,7 @@
 
   <properties>
     <dep.jackson.version>1.9.9</dep.jackson.version>
-    <dep.ness.server.version>2.0.0</dep.ness.server.version>
+    <dep.ness.server.version>2.0.2</dep.ness.server.version>
   </properties>
 
   <dependencyManagement>
@@ -63,13 +63,13 @@
       <dependency>
         <groupId>com.nesscomputing.components</groupId>
         <artifactId>ness-lifecycle</artifactId>
-        <version>1.2.2</version>
+        <version>1.3.0</version>
       </dependency>
 
       <dependency>
         <groupId>com.nesscomputing.components</groupId>
         <artifactId>ness-core</artifactId>
-        <version>1.3.1</version>
+        <version>1.4.0</version>
       </dependency>
 
       <dependency>
@@ -111,13 +111,13 @@
       <dependency>
         <groupId>com.nesscomputing.components</groupId>
         <artifactId>ness-jmx</artifactId>
-        <version>1.1.1</version>
+        <version>1.2.0</version>
       </dependency>
 
       <dependency>
         <groupId>com.nesscomputing.components</groupId>
         <artifactId>ness-jackson</artifactId>
-        <version>1.1.0</version>
+        <version>1.2.0</version>
       </dependency>
 
       <dependency>
@@ -159,7 +159,7 @@
       <dependency>
         <groupId>com.nesscomputing.components</groupId>
         <artifactId>ness-integration-testing</artifactId>
-        <version>3.1.0</version>
+        <version>3.1.1</version>
       </dependency>
 
       <dependency>
@@ -259,10 +259,14 @@
         <artifactId>jackson-core-asl</artifactId>
         <version>${dep.jackson.version}</version>
       </dependency>
-
       <dependency>
         <groupId>org.codehaus.jackson</groupId>
         <artifactId>jackson-mapper-asl</artifactId>
+        <version>${dep.jackson.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.jackson</groupId>
+        <artifactId>jackson-smile</artifactId>
         <version>${dep.jackson.version}</version>
       </dependency>
 

@@ -41,7 +41,7 @@
       <groupId>com.nesscomputing.components</groupId>
       <artifactId>ness-httpserver</artifactId>
     </dependency>
-    
+
     <dependency>
       <groupId>com.nesscomputing.components</groupId>
       <artifactId>ness-jmx</artifactId>
@@ -94,7 +94,7 @@
 
     <dependency>
       <groupId>junit</groupId>
-      <artifactId>junit-dep</artifactId>
+      <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
