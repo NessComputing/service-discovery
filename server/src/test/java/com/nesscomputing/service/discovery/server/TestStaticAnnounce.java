@@ -31,6 +31,8 @@ import java.util.Map;
 
 import javax.ws.rs.core.MediaType;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -43,8 +45,6 @@ import com.google.inject.Inject;
 import com.google.inject.Stage;
 
 import org.apache.commons.configuration.SystemConfiguration;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

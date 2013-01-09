@@ -15,10 +15,6 @@
  */
 package com.nesscomputing.service.discovery.client.internal;
 
-import com.nesscomputing.logging.Log;
-import com.nesscomputing.service.discovery.client.DiscoveryClientConfig;
-import com.nesscomputing.service.discovery.client.ServiceInformation;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,15 +24,18 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Charsets;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 import org.apache.zookeeper.AsyncCallback.DataCallback;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
-import org.codehaus.jackson.map.ObjectMapper;
 
-import com.google.common.base.Charsets;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
+import com.nesscomputing.logging.Log;
+import com.nesscomputing.service.discovery.client.DiscoveryClientConfig;
+import com.nesscomputing.service.discovery.client.ServiceInformation;
 
 /**
  * Reads the current list of service announcements from Zookeeper and updates the
@@ -143,7 +142,7 @@ public class ServiceDiscoveryReader extends ServiceDiscoveryTask
                 }
             }
         }
-        
+
         Map<String, ConsistentRingGroup> serviceGroups = Maps.newHashMap();
         for (Map.Entry<String, List<ServiceInformation>> entry: serviceMap.entrySet()) {
         	ConsistentRingGroup currentGroup = stateHolder.getState().get(entry.getKey());

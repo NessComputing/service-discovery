@@ -4,7 +4,7 @@
   <parent>
     <groupId>com.nesscomputing</groupId>
     <artifactId>ness-oss-parent</artifactId>
-    <version>23</version>
+    <version>25</version>
   </parent>
 
   <scm>
@@ -30,8 +30,8 @@
   </modules>
 
   <properties>
-    <dep.jackson.version>1.9.9</dep.jackson.version>
-    <dep.ness.server.version>2.0.2</dep.ness.server.version>
+    <dep.jackson.version>2.1.2</dep.jackson.version>
+    <dep.ness.server.version>2.1.0</dep.ness.server.version>
   </properties>
 
   <dependencyManagement>
@@ -105,25 +105,25 @@
       <dependency>
         <groupId>com.nesscomputing.components</groupId>
         <artifactId>ness-jms</artifactId>
-        <version>1.1.0</version>
+        <version>1.2.0</version>
       </dependency>
 
       <dependency>
         <groupId>com.nesscomputing.components</groupId>
         <artifactId>ness-jmx</artifactId>
-        <version>1.2.0</version>
+        <version>1.2.1</version>
       </dependency>
 
       <dependency>
         <groupId>com.nesscomputing.components</groupId>
         <artifactId>ness-jackson</artifactId>
-        <version>1.2.0</version>
+        <version>2.0.0</version>
       </dependency>
 
       <dependency>
         <groupId>com.nesscomputing.components</groupId>
         <artifactId>ness-tracking</artifactId>
-        <version>1.0.2</version>
+        <version>1.1.0</version>
       </dependency>
 
       <dependency>
@@ -147,7 +147,7 @@
       <dependency>
         <groupId>com.nesscomputing.components</groupId>
         <artifactId>ness-httpclient</artifactId>
-        <version>1.2.1</version>
+        <version>1.5.0</version>
       </dependency>
 
       <dependency>
@@ -255,18 +255,23 @@
       </dependency>
 
       <dependency>
-        <groupId>org.codehaus.jackson</groupId>
-        <artifactId>jackson-core-asl</artifactId>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-annotations</artifactId>
         <version>${dep.jackson.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.codehaus.jackson</groupId>
-        <artifactId>jackson-mapper-asl</artifactId>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-core</artifactId>
         <version>${dep.jackson.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.codehaus.jackson</groupId>
-        <artifactId>jackson-smile</artifactId>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>${dep.jackson.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.dataformat</groupId>
+        <artifactId>jackson-dataformat-smile</artifactId>
         <version>${dep.jackson.version}</version>
       </dependency>
 

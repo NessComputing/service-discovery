@@ -15,6 +15,11 @@
  */
 package com.nesscomputing.service.discovery.client.internal;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
+
 import com.nesscomputing.lifecycle.Lifecycle;
 import com.nesscomputing.lifecycle.LifecycleListener;
 import com.nesscomputing.lifecycle.LifecycleStage;
@@ -23,13 +28,6 @@ import com.nesscomputing.service.discovery.client.DiscoveryClient;
 import com.nesscomputing.service.discovery.client.DiscoveryClientConfig;
 import com.nesscomputing.service.discovery.client.DiscoveryClientModule;
 import com.nesscomputing.service.discovery.client.ServiceInformation;
-
-
-import org.codehaus.jackson.map.ObjectMapper;
-
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.google.inject.name.Named;
 
 /**
  * Read/Write service discovery client. Supports service lookup and announcing of local services using Zookeeper.

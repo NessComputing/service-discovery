@@ -21,13 +21,12 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Throwables;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.google.common.base.Throwables;
-import com.nesscomputing.service.discovery.client.DiscoveryClientConfig;
 import com.nesscomputing.service.discovery.client.internal.DiscoveryClientImpl;
 import com.nesscomputing.testing.lessio.AllowNetworkListen;
 
