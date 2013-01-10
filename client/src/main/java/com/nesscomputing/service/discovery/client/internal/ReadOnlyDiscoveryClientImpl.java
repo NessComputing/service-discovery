@@ -18,15 +18,15 @@ package com.nesscomputing.service.discovery.client.internal;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-
-import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jackson.map.ObjectMapper;
-
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+
+import org.apache.commons.lang3.StringUtils;
+import org.codehaus.jackson.map.ObjectMapper;
+
 import com.nesscomputing.lifecycle.Lifecycle;
 import com.nesscomputing.lifecycle.LifecycleListener;
 import com.nesscomputing.lifecycle.LifecycleStage;
@@ -106,7 +106,7 @@ public class ReadOnlyDiscoveryClientImpl extends AbstractDiscoveryClient impleme
             LOG.debug("Waiting for the world to change!");
             try {
                 // The magic one second wait for service discovery to catch up.
-                if (waitForWorldChange(1, TimeUnit.SECONDS)) {
+                if (waitForWorldChange(discoveryConfig.getWorldChangeTimeout(), TimeUnit.SECONDS)) {
                     LOG.debug("World just changed!");
                 }
                 else {
