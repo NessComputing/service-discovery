@@ -105,7 +105,7 @@ public class ReadOnlyDiscoveryClientImpl extends AbstractDiscoveryClient impleme
             LOG.debug("Waiting for the world to change!");
             try {
                 // The magic one second wait for service discovery to catch up.
-                if (waitForWorldChange(discoveryConfig.getWorldChangeTimeout(), TimeUnit.SECONDS)) {
+                if (waitForWorldChange(discoveryConfig.getWorldChangeTimeout().getMillis(), TimeUnit.MILLISECONDS)) {
                     LOG.debug("World just changed!");
                 }
                 else {
