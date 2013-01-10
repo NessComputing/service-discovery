@@ -103,12 +103,12 @@ public abstract class DiscoveryClientConfig
     }
 
     /**
-     * Default penalty time for a bad node read from service discovery.
+     * Time to wait at startup for the first discovery world state before moving on with no known services.
      */
     @Config("ness.discovery.world-change-timeout")
-    @Default("10")
-    public long getWorldChangeTimeout()
+    @Default("10s")
+    public TimeSpan getWorldChangeTimeout()
     {
-        return 10; // 10 seconds
+        return new TimeSpan("10s");
     }
 }
