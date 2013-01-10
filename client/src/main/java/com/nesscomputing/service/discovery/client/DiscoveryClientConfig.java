@@ -101,4 +101,14 @@ public abstract class DiscoveryClientConfig
     {
         return new TimeSpan(600, TimeUnit.SECONDS);
     }
+
+    /**
+     * Default penalty time for a bad node read from service discovery.
+     */
+    @Config("ness.discovery.world-change-timeout")
+    @Default("10")
+    public long getWorldChangeTimeout()
+    {
+        return 10; // 10 seconds
+    }
 }
