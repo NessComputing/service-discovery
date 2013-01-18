@@ -17,9 +17,16 @@ package com.nesscomputing.service.discovery.testing.client;
 
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Scopes;
+
+import com.nesscomputing.config.ConfigProvider;
+import com.nesscomputing.httpclient.guice.HttpClientModule;
 import com.nesscomputing.service.discovery.client.DiscoveryClient;
+import com.nesscomputing.service.discovery.client.DiscoveryClientConfig;
+import com.nesscomputing.service.discovery.client.DiscoveryServiceInterceptor;
 import com.nesscomputing.service.discovery.client.ReadOnlyDiscoveryClient;
 import com.nesscomputing.service.discovery.client.ServiceInformation;
+import com.nesscomputing.service.discovery.client.ServiceURIConverter;
 
 /**
  * Install a mocked discovery client. Can be used to override an existing module binding to replace
@@ -68,5 +75,9 @@ public class MockedDiscoveryModule extends AbstractModule
 
         bind(DiscoveryClient.class).toInstance(client);
         bind(ReadOnlyDiscoveryClient.class).toInstance(client);
+
+        bind(DiscoveryClientConfig.class).toProvider(ConfigProvider.of(DiscoveryClientConfig.class)).in(Scopes.SINGLETON);
+        bind(ServiceURIConverter.class).in(Scopes.SINGLETON);
+        HttpClientModule.bindNewObserver(binder()).to(DiscoveryServiceInterceptor.class);
     }
 }

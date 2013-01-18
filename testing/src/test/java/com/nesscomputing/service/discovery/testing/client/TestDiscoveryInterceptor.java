@@ -20,14 +20,13 @@ import java.net.URI;
 import java.util.Map;
 import java.util.Set;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -40,7 +39,6 @@ import com.nesscomputing.httpclient.HttpClientResponseHandler;
 import com.nesscomputing.httpclient.guice.HttpClientModule;
 import com.nesscomputing.lifecycle.guice.LifecycleModule;
 import com.nesscomputing.service.discovery.client.DiscoveryClient;
-import com.nesscomputing.service.discovery.client.DiscoveryClientConfig;
 import com.nesscomputing.service.discovery.client.DiscoveryServiceInterceptor;
 import com.nesscomputing.service.discovery.client.ServiceInformation;
 
@@ -58,19 +56,8 @@ public class TestDiscoveryInterceptor {
 	@Before
 	public void setup() {
 		Injector injector = Guice.createInjector(new MockedDiscoveryModule("fake", "fake", "http", "localhost", 12345),
-		                                         ConfigModule.forTesting(),
-				new HttpClientModule("fake"), new LifecycleModule(), new AbstractModule() {
-					@Override
-					protected void configure() {
-						//Discovery needs to be enabled for the interceptor to do anything
-						bind(DiscoveryClientConfig.class).toInstance(new DiscoveryClientConfig() {
-							@Override
-							public boolean isEnabled() {
-								return true;
-							}
-						});
-					}
-				});
+		                                         ConfigModule.forTesting("ness.discovery.enabled", "true"),
+				new HttpClientModule("fake"), new LifecycleModule());
 		DiscoveryClient dc = injector.getInstance(DiscoveryClient.class);
 		dc.announce(ServiceInformation.forService("fake", "fake", "http", "localhost", 123456));
 		injector.injectMembers(this);
