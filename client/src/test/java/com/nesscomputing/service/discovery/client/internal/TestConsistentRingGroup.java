@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 /**
- * 
+ *
  */
 package com.nesscomputing.service.discovery.client.internal;
 
 import java.util.List;
 import java.util.UUID;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.junit.Before;
@@ -39,17 +39,17 @@ import com.nesscomputing.service.discovery.client.internal.ConsistentRingGroup;
  */
 public class TestConsistentRingGroup {
 	private ConsistentRingGroup group;
-	
+
 	@Before
 	public void setup() {
 		List<ServiceInformation> services = Lists.newArrayList();
 		services.add(new ServiceInformation("fake", "type1", UUID.randomUUID(), Maps.<String, String>newHashMap()));
 		services.add(new ServiceInformation("fake", "type2", UUID.randomUUID(), Maps.<String, String>newHashMap()));
 		services.add(new ServiceInformation("fake", null, UUID.randomUUID(), Maps.<String, String>newHashMap()));
-		
+
 		group = new ConsistentRingGroup(services);
 	}
-	
+
 	@Test
 	public void testBasic() {
 		ConsistentHashRing ring = group.getRing("type1");
@@ -57,7 +57,7 @@ public class TestConsistentRingGroup {
 		ServiceInformation service = (ServiceInformation) CollectionUtils.get(ring, 0);
 		Assert.assertEquals("type1", service.getServiceType());
 	}
-	
+
 	@Test
 	public void testFallback() {
 		ConsistentHashRing ring = group.getRing("type3");
