@@ -16,10 +16,7 @@
 package com.nesscomputing.service.discovery.server;
 
 import static java.lang.String.format;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,6 +40,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Stage;
+import com.google.inject.name.Named;
 
 import org.apache.commons.configuration.SystemConfiguration;
 import org.junit.After;
@@ -89,6 +87,7 @@ public class TestStaticAnnounce
     ReadOnlyDiscoveryClient discoveryClient;
 
     @Inject
+    @Named("test")
     HttpClient httpClient;
 
     @Inject
@@ -134,7 +133,7 @@ public class TestStaticAnnounce
                 install (new ConfigModule(Config.getFixedConfig(new SystemConfiguration())));
                 install (new LifecycleModule(ServiceDiscoveryLifecycle.class));
                 install (new NessJacksonModule());
-                install (new HttpClientModule());
+                install (new HttpClientModule("test"));
                 install (new DiscoveryClientModule(true));
             }
         }).injectMembers(this);
