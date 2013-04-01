@@ -11,12 +11,12 @@
     <connection>scm:git:git://github.com/NessComputing/service-discovery.git</connection>
     <developerConnection>scm:git:git@github.com:NessComputing/service-discovery.git</developerConnection>
     <url>http://github.com/NessComputing/service-discovery</url>
-    <tag>discovery-parent-1.6.1</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <groupId>com.nesscomputing.service.discovery</groupId>
   <artifactId>discovery-parent</artifactId>
-  <version>1.6.1</version>
+  <version>1.6.2-SNAPSHOT</version>
   <name>service-discovery-parent</name>
   <description>Service location and discovery.</description>
   <packaging>pom</packaging>
