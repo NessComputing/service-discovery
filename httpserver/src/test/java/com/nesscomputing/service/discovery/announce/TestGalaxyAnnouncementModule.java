@@ -23,8 +23,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.nesscomputing.config.Config;
-import com.nesscomputing.service.discovery.announce.AnnouncementConfig;
-import com.nesscomputing.service.discovery.announce.GalaxyAnnouncementModule;
 
 public class TestGalaxyAnnouncementModule
 {

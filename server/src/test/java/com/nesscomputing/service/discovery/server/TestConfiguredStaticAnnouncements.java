@@ -73,13 +73,14 @@ public class TestConfiguredStaticAnnouncements
     @Before
     public void spinup() throws Exception
     {
-        final Map<String, String> announceConfig = ImmutableMap.of(
-                "ness.discovery.static-announce.65f57132-8415-422e-b44a-7543dda54858.name", "foo",
-                "ness.discovery.static-announce.65f57132-8415-422e-b44a-7543dda54858.scheme", "http",
-                "ness.discovery.static-announce.65f57132-8415-422e-b44a-7543dda54858.address", "127.0.0.1",
-                "ness.discovery.static-announce.65f57132-8415-422e-b44a-7543dda54858.port", "12345",
-                "ness.discovery.static-announce.65f57132-8415-422e-b44a-7543dda54858.type", "bar"
-            );
+        final Map<String, String> announceConfig = ImmutableMap.<String, String>builder()
+                .put("org.quartz.threadPool.threadCount", "1")
+                .put("ness.discovery.static-announce.65f57132-8415-422e-b44a-7543dda54858.name", "foo")
+                .put("ness.discovery.static-announce.65f57132-8415-422e-b44a-7543dda54858.scheme", "http")
+                .put("ness.discovery.static-announce.65f57132-8415-422e-b44a-7543dda54858.address", "127.0.0.1")
+                .put("ness.discovery.static-announce.65f57132-8415-422e-b44a-7543dda54858.port", "12345")
+                .put("ness.discovery.static-announce.65f57132-8415-422e-b44a-7543dda54858.type", "bar")
+            .build();
 
         System.setProperty("ness.discovery.enabled", "true");
         server = new DiscoveryServerMain() {
