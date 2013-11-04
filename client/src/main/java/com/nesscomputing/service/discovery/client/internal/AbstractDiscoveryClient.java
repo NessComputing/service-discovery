@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -42,157 +41,159 @@ import com.nesscomputing.service.discovery.client.ServiceNotAvailableException;
  */
 @Singleton
 public abstract class AbstractDiscoveryClient implements
-		ReadOnlyDiscoveryClient {
-	private final StateOfTheWorldHolder stateHolder;
+        ReadOnlyDiscoveryClient {
+    private final StateOfTheWorldHolder stateHolder;
 
-	private final Random random = new Random();
+    private final Random random = new Random();
 
-	protected AbstractDiscoveryClient(final boolean enabled) {
-		// Only wait for the first service update to happen if service discovery
-		// is actually enabled.
-		this.stateHolder = new StateOfTheWorldHolder(enabled);
-	}
+    protected AbstractDiscoveryClient(final boolean enabled) {
+        // Only wait for the first service update to happen if service discovery
+        // is actually enabled.
+        this.stateHolder = new StateOfTheWorldHolder(enabled);
+    }
 
-	@Override
-	public void waitForWorldChange() throws InterruptedException {
-		stateHolder.waitForWorldChange();
-	}
+    @Override
+    public void waitForWorldChange() throws InterruptedException {
+        stateHolder.waitForWorldChange();
+    }
 
-	@Override
-	public boolean waitForWorldChange(final long timeout,
-			final TimeUnit timeUnit) throws InterruptedException {
-		return stateHolder.waitForWorldChange(timeout, timeUnit);
-	}
+    @Override
+    public boolean waitForWorldChange(final long timeout,
+            final TimeUnit timeUnit) throws InterruptedException {
+        return stateHolder.waitForWorldChange(timeout, timeUnit);
+    }
 
-	protected StateOfTheWorldHolder getStateOfTheWorldHolder() {
-		return stateHolder;
-	}
+    protected StateOfTheWorldHolder getStateOfTheWorldHolder() {
+        return stateHolder;
+    }
 
-	@Override
-	public URI findServiceUri(final String serviceName,
-			final String serviceType, final ServiceHint... hints)
-			throws ServiceNotAvailableException {
-		final ServiceInformation service = findServiceInformation(serviceName,
-				serviceType, hints);
+    @Override
+    @SuppressWarnings("PMD.PreserveStackTrace")
+    public URI findServiceUri(final String serviceName,
+            final String serviceType, final ServiceHint... hints)
+            throws ServiceNotAvailableException {
+        final ServiceInformation service = findServiceInformation(serviceName,
+                serviceType, hints);
 
-		final String locatedScheme = service
-				.getProperty(ServiceInformation.PROP_SERVICE_SCHEME);
-		final String locatedAddress = service
-				.getProperty(ServiceInformation.PROP_SERVICE_ADDRESS);
-		final String locatedPort = service
-				.getProperty(ServiceInformation.PROP_SERVICE_PORT);
+        final String locatedScheme = service
+                .getProperty(ServiceInformation.PROP_SERVICE_SCHEME);
+        final String locatedAddress = service
+                .getProperty(ServiceInformation.PROP_SERVICE_ADDRESS);
+        final String locatedPort = service
+                .getProperty(ServiceInformation.PROP_SERVICE_PORT);
 
-		if (StringUtils.isEmpty(locatedScheme)
-				|| StringUtils.isEmpty(locatedAddress)
-				|| StringUtils.isEmpty(locatedPort)) {
-			throw new ServiceNotAvailableException(
-					"Service %s/%s exists but misses address information (%s/%s)",
-					serviceName, serviceType, locatedAddress, locatedPort);
-		}
+        if (StringUtils.isEmpty(locatedScheme)
+                || StringUtils.isEmpty(locatedAddress)
+                || StringUtils.isEmpty(locatedPort)) {
+            throw new ServiceNotAvailableException(
+                    "Service %s/%s exists but misses address information (%s/%s)",
+                    serviceName, serviceType, locatedAddress, locatedPort);
+        }
 
-		try {
-			return new URI(locatedScheme, null, locatedAddress,
-					Integer.parseInt(locatedPort), "", null, null);
-		} catch (URISyntaxException use) {
-			throw new ServiceNotAvailableException(
-					"Could not create URI from '%s'!", service);
-		}
-	}
+        try {
+            return new URI(locatedScheme, null, locatedAddress,
+                    Integer.parseInt(locatedPort), "", null, null);
+        } catch (URISyntaxException use) {
+            throw new ServiceNotAvailableException(
+                    "Could not create URI from '%s'!", service);
+        }
+    }
 
-	@Override
-	public ServiceInformation findServiceInformation(final String serviceName,
-			final String serviceType, final ServiceHint... hints)
-			throws ServiceNotAvailableException {
-		final ConsistentHashRing services = findRing(serviceName, serviceType);
+    @Override
+    public ServiceInformation findServiceInformation(final String serviceName,
+            final String serviceType, final ServiceHint... hints)
+            throws ServiceNotAvailableException {
+        final ConsistentHashRing services = findRing(serviceName, serviceType);
 
-		if (CollectionUtils.isEmpty(services)) {
-			throw new ServiceNotAvailableException("No %s/%s service found",
-					serviceName, serviceType);
-		}
+        if (CollectionUtils.isEmpty(services)) {
+            throw new ServiceNotAvailableException("No %s/%s service found",
+                    serviceName, serviceType);
+        }
 
-		final ServiceInformation service = selectHintedService(services, hints);
-		if (service == null) {
-			throw new ServiceNotAvailableException("No %s/%s service found",
-					serviceName, serviceType);
-		}
-		return service;
-	}
+        final ServiceInformation service = selectHintedService(services, hints);
+        if (service == null) {
+            throw new ServiceNotAvailableException("No %s/%s service found",
+                    serviceName, serviceType);
+        }
+        return service;
+    }
 
-	@Override
-	public List<ServiceInformation> findAllServiceInformation(
-			final String serviceName, final String serviceType) {
-		ConsistentHashRing services = findRing(serviceName, serviceType);
-		if (CollectionUtils.isEmpty(services)) {
-			return Collections.emptyList();
-		}
+    @Override
+    public List<ServiceInformation> findAllServiceInformation(
+            final String serviceName, final String serviceType) {
+        ConsistentHashRing services = findRing(serviceName, serviceType);
+        if (CollectionUtils.isEmpty(services)) {
+            return Collections.emptyList();
+        }
 
-		return Lists.newArrayList(services);
-	}
+        return Lists.newArrayList(services);
+    }
 
-	private ConsistentHashRing findRing(final String serviceName,
-			final String serviceType) {
-		final Map<String, ConsistentRingGroup> current = stateHolder.getState();
-		ConsistentRingGroup group = current.get(serviceName);
-		if (CollectionUtils.isEmpty(group)) {
-			return null;
-		}
-		// getRing will fall back to another type (if appropriate), if the
-		// requested type can't be found
-		return group.getRing(serviceType);
-	}
+    private ConsistentHashRing findRing(final String serviceName,
+            final String serviceType) {
+        final Map<String, ConsistentRingGroup> current = stateHolder.getState();
+        ConsistentRingGroup group = current.get(serviceName);
+        if (CollectionUtils.isEmpty(group)) {
+            return null;
+        }
+        // getRing will fall back to another type (if appropriate), if the
+        // requested type can't be found
+        return group.getRing(serviceType);
+    }
 
-	@Override
-	public List<ServiceInformation> findAllServiceInformation(
-			final String serviceName) {
-		List<ServiceInformation> result = Lists.newArrayList();
-		ConsistentRingGroup group = stateHolder.getState().get(serviceName);
-		if (CollectionUtils.isEmpty(group)) {
-			return Collections.emptyList();
-		}
-		for (ConsistentHashRing ring : group) {
-			result.addAll(ring);
-		}
-		return result;
-	}
+    @Override
+    public List<ServiceInformation> findAllServiceInformation(
+            final String serviceName) {
+        ConsistentRingGroup group = stateHolder.getState().get(serviceName);
+        if (CollectionUtils.isEmpty(group)) {
+            return Collections.emptyList();
+        }
 
-	@Override
-	public Map<String, List<ServiceInformation>> findAllServiceInformation() {
-		final Map<String, ConsistentRingGroup> current = stateHolder.getState();
+        List<ServiceInformation> result = Lists.newArrayList();
+        for (ConsistentHashRing ring : group) {
+            result.addAll(ring);
+        }
+        return result;
+    }
 
-		// Do a deep copy to make sure no one can hold a reference to the full
-		// map or the lists.
-		final Map<String, List<ServiceInformation>> result = Maps.newHashMap();
-		for (Map.Entry<String, ConsistentRingGroup> entry : current.entrySet()) {
-			final List<ServiceInformation> serviceList = Lists.newArrayList();
-			for (ConsistentHashRing ring : entry.getValue()) {
-				// The service information elements are immutable, so you can
-				// hold a reference to them,
-				// it does not matter. Please don't. :-)
-				serviceList.addAll(ring);
-			}
-			result.put(entry.getKey(), serviceList);
-		}
-		return result;
-	}
+    @Override
+    public Map<String, List<ServiceInformation>> findAllServiceInformation() {
+        final Map<String, ConsistentRingGroup> current = stateHolder.getState();
 
-	private ServiceInformation selectHintedService(
-			final ConsistentHashRing ring, final ServiceHint... hints) {
-		if (CollectionUtils.isEmpty(ring)) {
-			return null;
-		}
+        // Do a deep copy to make sure no one can hold a reference to the full
+        // map or the lists.
+        final Map<String, List<ServiceInformation>> result = Maps.newHashMap();
+        for (Map.Entry<String, ConsistentRingGroup> entry : current.entrySet()) {
+            final List<ServiceInformation> serviceList = Lists.newArrayList();
+            for (ConsistentHashRing ring : entry.getValue()) {
+                // The service information elements are immutable, so you can
+                // hold a reference to them,
+                // it does not matter. Please don't. :-)
+                serviceList.addAll(ring);
+            }
+            result.put(entry.getKey(), serviceList);
+        }
+        return result;
+    }
 
-		String hashKey = null;
-		for (ServiceHint hint : hints) {
-			if (ServiceHint.CONSISTENTHASH_HINT.equals(hint.getName())) {
-				hashKey = hint.getValue();
-				break;
-			}
-		}
+    private ServiceInformation selectHintedService(
+            final ConsistentHashRing ring, final ServiceHint... hints) {
+        if (CollectionUtils.isEmpty(ring)) {
+            return null;
+        }
 
-		if (hashKey != null) {
-			return ring.get(hashKey);
-		} else {
-			return ring.get(String.valueOf(random.nextInt()));
-		}
-	}
+        String hashKey = null;
+        for (ServiceHint hint : hints) {
+            if (ServiceHint.CONSISTENTHASH_HINT.equals(hint.getName())) {
+                hashKey = hint.getValue();
+                break;
+            }
+        }
+
+        if (hashKey != null) {
+            return ring.get(hashKey);
+        } else {
+            return ring.get(String.valueOf(random.nextInt()));
+        }
+    }
 }

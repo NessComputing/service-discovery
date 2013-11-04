@@ -54,7 +54,7 @@ public class BuildPathJob extends ZookeeperJob
                     continue;
                 }
 
-                sb.append("/").append(element);
+                sb.append('/').append(element);
 
                 final String zPath = sb.toString();
                 try {

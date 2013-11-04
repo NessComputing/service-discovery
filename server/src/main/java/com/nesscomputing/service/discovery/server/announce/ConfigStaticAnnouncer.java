@@ -87,7 +87,6 @@ public class ConfigStaticAnnouncer
     {
         final AbstractConfiguration subconfig = config.getConfiguration(CONFIG_ROOT);
 
-        @SuppressWarnings("unchecked")
         final
         Iterator<String> keys = subconfig.getKeys();
 

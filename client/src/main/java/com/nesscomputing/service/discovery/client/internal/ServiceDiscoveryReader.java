@@ -68,7 +68,7 @@ public class ServiceDiscoveryReader extends ServiceDiscoveryTask
     {
         final Map<String, List<ServiceInformation>> serviceMap = new HashMap<String, List<ServiceInformation>>();
 
-        if (childNodes.size() > 0) {
+        if (!childNodes.isEmpty()) {
             final List<ServiceInformation> rawServices = new ArrayList<ServiceInformation>(childNodes.size());
             final CountDownLatch latch = new CountDownLatch(childNodes.size());
 

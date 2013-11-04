@@ -45,6 +45,7 @@ public class ServiceURIConverter
         this.discoveryClientConfig = discoveryClientConfig;
     }
 
+    @SuppressWarnings("PMD.PreserveStackTrace")
     public URI convertServiceURI(@Nonnull final ServiceURI serviceUri, ServiceHint ... hints)
         throws URISyntaxException, ServiceNotAvailableException
     {
@@ -83,7 +84,7 @@ public class ServiceURIConverter
         }
 
         if (port != -1) {
-            sb.append(":").append(port);
+            sb.append(':').append(port);
         }
 
         final String path = serviceUri.getPath();
@@ -92,11 +93,11 @@ public class ServiceURIConverter
         }
         final String query = serviceUri.getQuery();
         if (!StringUtils.isBlank(query)) {
-            sb.append("?").append(query);
+            sb.append('?').append(query);
         }
         final String fragment = serviceUri.getFragment();
         if (!StringUtils.isBlank(fragment)) {
-            sb.append("#").append(fragment);
+            sb.append('#').append(fragment);
         }
 
         // Any other c'tor does double-escape of the raw elements in path, query and fragment.
