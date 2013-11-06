@@ -34,12 +34,12 @@ public final class ServiceURI
     private final String query;
     private final String fragment;
 
-    public static ServiceURI valueOf(String uri)
+    public static ServiceURI valueOf(final String uri)
     {
         try {
             return new ServiceURI(uri);
         }
-        catch (URISyntaxException use) {
+        catch (final URISyntaxException use) {
             throw new IllegalArgumentException(use);
         }
     }
@@ -59,18 +59,18 @@ public final class ServiceURI
         }
 
         final String schemeSpecificPart = uri.getSchemeSpecificPart().substring(2);
-        final int slashIndex = schemeSpecificPart.indexOf("/");
+        final int slashIndex = schemeSpecificPart.indexOf('/');
         if (slashIndex == -1) {
             throw new URISyntaxException(uri.toString(), "ServiceURI requires a slash at the end of the service!");
         }
-        final int colonIndex = schemeSpecificPart.indexOf(":");
+        final int colonIndex = schemeSpecificPart.indexOf(':');
         if (colonIndex == -1 || colonIndex > slashIndex) {
             serviceName = schemeSpecificPart.substring(0, slashIndex);
             serviceType = null;
         }
         else {
             serviceName = schemeSpecificPart.substring(0, colonIndex);
-            serviceType = schemeSpecificPart.substring(colonIndex +1 , slashIndex);
+            serviceType = schemeSpecificPart.substring(colonIndex + 1, slashIndex);
         }
 
         path = uri.getRawPath();
@@ -106,9 +106,10 @@ public final class ServiceURI
     @Override
     public boolean equals(final Object other)
     {
-        if (!(other instanceof ServiceURI))
+        if (!(other instanceof ServiceURI)) {
             return false;
-        ServiceURI castOther = (ServiceURI) other;
+        }
+        final ServiceURI castOther = (ServiceURI) other;
         return new EqualsBuilder().append(serviceName, castOther.serviceName).append(serviceType, castOther.serviceType).append(path, castOther.path).append(query, castOther.query).append(fragment, castOther.fragment).isEquals();
     }
 
@@ -133,6 +134,4 @@ public final class ServiceURI
         }
         return toString;
     }
-
-
 }

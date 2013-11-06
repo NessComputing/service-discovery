@@ -31,7 +31,7 @@ public class DiscoveryJmsModule extends AbstractModule
 {
     private final Config config;
 
-    public DiscoveryJmsModule(Config config)
+    public DiscoveryJmsModule(final Config config)
     {
         this.config = config;
     }
@@ -44,7 +44,7 @@ public class DiscoveryJmsModule extends AbstractModule
                     DiscoveryJmsUriInterceptor.class)
                     .in(Scopes.SINGLETON);
 
-            bind (DiscoveryJmsConfig.class).toProvider(
+            bind(DiscoveryJmsConfig.class).toProvider(
                     ConfigProvider.of(null, DiscoveryJmsConfig.class))
                     .in(Scopes.SINGLETON);
         }
@@ -55,25 +55,31 @@ public class DiscoveryJmsModule extends AbstractModule
     {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((config == null) ? 0 : config.hashCode());
+        result = prime * result + (config == null ? 0 : config.hashCode());
         return result;
     }
 
     @Override
-    public boolean equals(Object obj)
+    public boolean equals(final Object obj)
     {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         final DiscoveryJmsModule other = (DiscoveryJmsModule) obj;
         if (config == null) {
-            if (other.config != null)
+            if (other.config != null) {
                 return false;
-        } else if (!config.equals(other.config))
+            }
+        }
+        else if (!config.equals(other.config)) {
             return false;
+        }
         return true;
     }
 }

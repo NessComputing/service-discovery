@@ -63,7 +63,7 @@ public class ZookeeperCleanupJob implements Job
             final Set<File> excludes = Sets.newHashSet();
             final List<File> snaps = fileTxnSnapLog.findNRecentSnapshots(KEEP_VERSIONS_COUNT);
 
-            if (snaps.size() > 0)  {
+            if (!snaps.isEmpty())  {
                 File snapFile = null;
 
                 for(Iterator<File> it = snaps.iterator(); it.hasNext(); ) {
@@ -84,7 +84,7 @@ public class ZookeeperCleanupJob implements Job
                 files.addAll(Arrays.asList(fileTxnSnapLog.getSnapDir().listFiles(new PrefixExcludesFilter("snapshot.", excludes))));
 
                 // remove the old files
-                if (files.size() > 0) {
+                if (!files.isEmpty()) {
                     for (File file: files) {
                         LOG.info("Removing file %s (%s)", file.getPath(), DateFormat.getDateTimeInstance().format(file.lastModified()));
 

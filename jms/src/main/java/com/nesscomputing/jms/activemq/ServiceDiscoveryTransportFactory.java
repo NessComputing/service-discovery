@@ -91,6 +91,7 @@ public class ServiceDiscoveryTransportFactory extends TransportFactory {
     /**
      * Extract the query string from a connection URI into a Map
      */
+    @SuppressWarnings("PMD.PreserveStackTrace")
     private Map<String, String> findParameters(URI location) throws MalformedURLException {
         final Map<String, String> params;
         try {
@@ -158,9 +159,9 @@ public class ServiceDiscoveryTransportFactory extends TransportFactory {
         final StringBuilder uriBuilder = new StringBuilder();
         uriBuilder.append("failover:(");
         uriBuilder.append(Joiner.on(',').join(Collections2.transform(services, SERVICE_TO_URI)));
-        uriBuilder.append(")");
+        uriBuilder.append(')');
         if (!StringUtils.isBlank(configPostfix)) {
-            uriBuilder.append("?");
+            uriBuilder.append('?');
             uriBuilder.append(configPostfix);
         }
         try {

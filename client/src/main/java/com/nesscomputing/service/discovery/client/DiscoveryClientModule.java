@@ -113,9 +113,9 @@ public class DiscoveryClientModule extends AbstractModule
 
         for (final InetSocketAddress address : zookeeperServers.values()) {
             if (sb.length() > 0) {
-                sb.append(",");
+                sb.append(',');
             }
-            sb.append(address.getAddress().getHostAddress()).append(":").append(address.getPort());
+            sb.append(address.getAddress().getHostAddress()).append(':').append(address.getPort());
         }
 
         if (sb.length() == 0) {

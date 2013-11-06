@@ -52,14 +52,13 @@ public class ServiceInformation
     public static final String PROP_SERVICE_ADDRESS = "serviceAddress";
     public static final String PROP_SERVICE_PORT = "servicePort";
 
-
     private final String serviceName;
     private final String serviceType;
     private final UUID serviceId;
     private final String announcementName;
     private final boolean staticAnnouncement;
 
-    @JsonProperty(value="properties")
+    @JsonProperty(value = "properties")
     private final Map<String, String> grabBag = Maps.newHashMap();
 
     public static final ServiceInformation forService(final String serviceName, final String serviceType, final String serviceScheme, final String serviceAddress, final int port)
@@ -97,7 +96,7 @@ public class ServiceInformation
     }
 
     @JsonCreator
-    ServiceInformation(@Nonnull  @JsonProperty("serviceName") final String serviceName,
+    ServiceInformation(@Nonnull @JsonProperty("serviceName") final String serviceName,
             @Nullable @JsonProperty("serviceType") final String serviceType,
             @JsonProperty("serviceId") final UUID serviceId,
             @JsonProperty("properties") final Map<String, String> grabBag,
@@ -107,14 +106,14 @@ public class ServiceInformation
 
         this.serviceName = serviceName;
         this.serviceType = serviceType;
-        this.serviceId = serviceId == null ? UUID.randomUUID(): serviceId;
+        this.serviceId = serviceId == null ? UUID.randomUUID() : serviceId;
         this.staticAnnouncement = BooleanUtils.isTrue(staticAnnouncement);
 
         if (grabBag != null) {
             this.grabBag.putAll(grabBag);
         }
 
-        this.announcementName = StringUtils.join(new String [] {this.serviceName, this.serviceType, this.serviceId.toString()}, "-");
+        this.announcementName = StringUtils.join(new String[] { this.serviceName, this.serviceType, this.serviceId.toString() }, "-");
     }
 
     @JsonProperty
@@ -158,8 +157,9 @@ public class ServiceInformation
     @Override
     public boolean equals(final Object other)
     {
-        if (!(other instanceof ServiceInformation))
+        if (!(other instanceof ServiceInformation)) {
             return false;
+        }
         final ServiceInformation castOther = (ServiceInformation) other;
         return new EqualsBuilder().append(serviceName, castOther.serviceName)
             .append(serviceType, castOther.serviceType)
@@ -187,7 +187,13 @@ public class ServiceInformation
     public String toString()
     {
         if (toString == null) {
-            toString = new ToStringBuilder(this).append("serviceName", serviceName).append("serviceType", serviceType).append("serviceId", serviceId).append("announcementName", announcementName).append("grabBag", grabBag).append("staticAnnouncement", staticAnnouncement).toString();
+            toString = new ToStringBuilder(this).append("serviceName", serviceName)
+                            .append("serviceType", serviceType)
+                            .append("serviceId", serviceId)
+                            .append("announcementName", announcementName)
+                            .append("grabBag", grabBag)
+                            .append("staticAnnouncement", staticAnnouncement)
+                            .toString();
         }
         return toString;
     }
