@@ -15,7 +15,7 @@
   <properties>
     <galaxy.packaging>standalone</galaxy.packaging>
     <galaxy.mainclass>com.nesscomputing.service.discovery.server.DiscoveryServerMain</galaxy.mainclass>
-    <galaxy.jvm>1.6.0</galaxy.jvm>
+    <galaxy.jvm>1.7.0</galaxy.jvm>
     <ness.root.dir>${project.parent.basedir}</ness.root.dir>
   </properties>
 
