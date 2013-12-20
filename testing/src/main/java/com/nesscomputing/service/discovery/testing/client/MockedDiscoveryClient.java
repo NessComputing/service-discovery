@@ -70,7 +70,7 @@ public class MockedDiscoveryClient extends MockedReadOnlyDiscoveryClient impleme
         final Map<String, ConsistentRingGroup> worldOrder = getStateOfTheWorldHolder().getState();
         ConsistentRingGroup group = worldOrder.get(serviceInformation.getServiceName());
         if (group == null) {
-        	return;
+            return;
         }
         Set<ServiceInformation> services = Sets.newHashSet(group.getAll());
         services.remove(serviceInformation);

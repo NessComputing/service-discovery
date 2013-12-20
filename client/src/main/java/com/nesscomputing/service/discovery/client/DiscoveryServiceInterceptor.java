@@ -58,11 +58,11 @@ public class DiscoveryServiceInterceptor extends HttpClientObserver
                 LOG.trace("Found service URI: %s", serviceURI);
                 List<ServiceHint> hints = Lists.newArrayList();
                 for (HttpClientHeader header: request.getHeaders()) {
-                	String name = header.getName();
-                	//Extract any service discovery hints
-					if (name.startsWith("X-Ness-SDHint-") && name.length() > "X-Ness-SDHint-".length()) {
-                		hints.add(new ServiceHint(name.substring("X-Ness-SDHint-".length(), name.length()), header.getValue()));
-                	}
+                    String name = header.getName();
+                    //Extract any service discovery hints
+                    if (name.startsWith("X-Ness-SDHint-") && name.length() > "X-Ness-SDHint-".length()) {
+                        hints.add(new ServiceHint(name.substring("X-Ness-SDHint-".length(), name.length()), header.getValue()));
+                    }
                 }
                 final URI newUri = serviceUriConverter.convertServiceURI(serviceURI, hints.toArray(new ServiceHint[hints.size()]));
                 final HttpClientRequest.Builder<RequestType> builder = HttpClientRequest.Builder.fromRequest(request);
