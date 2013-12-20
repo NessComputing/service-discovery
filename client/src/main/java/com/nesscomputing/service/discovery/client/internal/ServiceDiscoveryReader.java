@@ -145,13 +145,13 @@ public class ServiceDiscoveryReader extends ServiceDiscoveryTask
 
         Map<String, ConsistentRingGroup> serviceGroups = Maps.newHashMap();
         for (Map.Entry<String, List<ServiceInformation>> entry: serviceMap.entrySet()) {
-        	ConsistentRingGroup currentGroup = stateHolder.getState().get(entry.getKey());
-        	//Rebuilding a group is kind of expensive, so reuse the old group if it hasn't changed
-			if (currentGroup != null && Sets.newHashSet(entry.getValue()).equals(Sets.newHashSet(currentGroup.getAll()))) {
-        		serviceGroups.put(entry.getKey(), currentGroup);
-        	} else {
-        		serviceGroups.put(entry.getKey(), new ConsistentRingGroup(entry.getValue()));
-        	}
+            ConsistentRingGroup currentGroup = stateHolder.getState().get(entry.getKey());
+            //Rebuilding a group is kind of expensive, so reuse the old group if it hasn't changed
+            if (currentGroup != null && Sets.newHashSet(entry.getValue()).equals(Sets.newHashSet(currentGroup.getAll()))) {
+                serviceGroups.put(entry.getKey(), currentGroup);
+            } else {
+                serviceGroups.put(entry.getKey(), new ConsistentRingGroup(entry.getValue()));
+            }
         }
         stateHolder.setState(serviceGroups);
     }

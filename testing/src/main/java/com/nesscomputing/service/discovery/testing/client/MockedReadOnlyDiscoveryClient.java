@@ -59,11 +59,11 @@ public class MockedReadOnlyDiscoveryClient extends AbstractDiscoveryClient imple
             final String serviceName = serviceInformation.getServiceName();
             List<ServiceInformation> serviceInformations = Lists.newArrayList();
             ConsistentRingGroup currentGroup = newWorldOrder.get(serviceName);
-			if (currentGroup != null) {
-            	serviceInformations.addAll(currentGroup.getAll());
+            if (currentGroup != null) {
+                serviceInformations.addAll(currentGroup.getAll());
             }
-			serviceInformations.add(serviceInformation);
-			newWorldOrder.put(serviceName, new ConsistentRingGroup(serviceInformations));
+            serviceInformations.add(serviceInformation);
+            newWorldOrder.put(serviceName, new ConsistentRingGroup(serviceInformations));
             return this;
         }
 
