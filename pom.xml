@@ -30,7 +30,7 @@
   </modules>
 
   <properties>
-    <dep.jackson.version>2.2.3</dep.jackson.version>
+    <dep.jackson.version>2.12.1</dep.jackson.version>
     <dep.ness.server.version>2.2.3</dep.ness.server.version>
   </properties>
 
